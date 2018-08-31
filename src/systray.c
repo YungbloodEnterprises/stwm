@@ -1,9 +1,9 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
-#include "wmfs.h"
+#include "stwm.h"
 #include "systray.h"
 #include "ewmh.h"
 #include "infobar.h"
@@ -22,7 +22,7 @@ systray_acquire(void)
           .background_pixel  = W->systray.infobar->theme->bars.bg,
      };
 
-     if(!(W->flags & WMFS_SYSTRAY) || W->systray.win)
+     if(!(W->flags & stwm_SYSTRAY) || W->systray.win)
           return;
 
      if(XGetSelectionOwner(W->dpy, W->net_atom[net_system_tray_s]) != None)
@@ -63,7 +63,7 @@ systray_add(Window win)
 {
      struct _systray *s;
 
-     if(!(W->flags & WMFS_SYSTRAY))
+     if(!(W->flags & stwm_SYSTRAY))
           return;
 
      s = xcalloc(1, sizeof(struct _systray));
@@ -87,7 +87,7 @@ systray_add(Window win)
 void
 systray_del(struct _systray *s)
 {
-     if(!(W->flags & WMFS_SYSTRAY))
+     if(!(W->flags & stwm_SYSTRAY))
           return;
 
      SLIST_REMOVE(&W->systray.head, s, _systray, next);
@@ -102,7 +102,7 @@ systray_state(struct _systray *s)
      long flags;
      int code = 0;
 
-     if(!(W->flags & WMFS_SYSTRAY) || !(flags = ewmh_get_xembed_state(s->win)))
+     if(!(W->flags & stwm_SYSTRAY) || !(flags = ewmh_get_xembed_state(s->win)))
           return;
 
      if(flags & XEMBED_MAPPED)
@@ -126,7 +126,7 @@ systray_freeicons(void)
 {
      struct _systray *i;
 
-     if(!(W->flags & WMFS_SYSTRAY))
+     if(!(W->flags & stwm_SYSTRAY))
           return;
 
      while(!SLIST_EMPTY(&W->systray.head))
@@ -150,7 +150,7 @@ systray_find(Window win)
 {
      struct _systray *i;
 
-     if(!(W->flags & WMFS_SYSTRAY))
+     if(!(W->flags & stwm_SYSTRAY))
           return NULL;
 
      SLIST_FOREACH(i, &W->systray.head, next)
@@ -178,7 +178,7 @@ systray_update(void)
      int x = 1;
      struct _systray *i;
 
-     if(!(W->flags & WMFS_SYSTRAY))
+     if(!(W->flags & stwm_SYSTRAY))
           return;
 
      if(W->systray.redim)

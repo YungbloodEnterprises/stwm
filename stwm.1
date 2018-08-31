@@ -1,19 +1,19 @@
-.\"    title: wmfs
-.\"    dev: xorg62
+.\"    title: stwm
+.\"    dev: yungblood
 .\"    man: arpinux
 .\"
-.TH "WMFS" "1" "2012/05/02" "wmfs" "manual of wmfs"
+.TH "STWM" "1" "2012/05/02" "stwm" "manual of stwm"
 .\" disable hyphenation
 .nh
 .\" disable justification (adjust text to left margin only)
 .ad l
 .SH "NAME"
-wmfs \- Window Manager From Scratch
+stwm \- Simple Touch Window Manager
 .SH "SYNOPSIS"
-\fBwmfs\fR [\fB\-hv\fR] [\fB\-C <file>\fR] [\fB\-c <uicb_function> <cmd>\fR]
+\fBstwm\fR [\fB\-hv\fR] [\fB\-C <file>\fR] [\fB\-c <uicb_function> <cmd>\fR]
 .sp
 .SH "DESCRIPTION"
-\fBWMFS\fR is a lightweight and highly configurable tiling window manager for X written in C\&.
+\fBSTWM\fR is a lightweight and highly configurable tiling window manager for X written in C\&.
 .sp
 .SH "OPTIONS"
 .PP
@@ -24,7 +24,7 @@ Load a configuration file\&.
 .PP
 \fB\-c <uicb_function> <cmd>\fR
 .RS 4
-Execute an uicb function to control WMFS\&.
+Execute an uicb function to control STWM\&.
 .RE
 .PP
 \fB\-v\fR
@@ -40,7 +40,7 @@ Print help information, then exit\&.
 .PP
 \fBControl\-Alt + r\fR
 .RS 4
-Reload WMFS binary
+Reload STWM binary
 .RE
 .PP
 \fBSuper + Return\fR
@@ -55,7 +55,7 @@ Quit the selected client
 .PP
 \fBControl\-Alt + q\fR
 .RS 4
-Exit WMFS
+Exit STWM
 .RE
 .PP
 \fBSuper + f \fR
@@ -293,17 +293,17 @@ Delete current tag\fR
 Add current tag\fR
 .RE
 .SH "CONFIGURATION"
-WMFS is configured by \fI$HOME/\&.config/wmfs/wmfsrc\fR\&.
+STWM is configured by \fI$HOME/\&.config/stwm/stwmrc\fR\&.
 .RE
 .PP
 \fB\ include:\fR
 wmfsrc supports ”@include” to split configuration file by section\&.
 .RS 2
-\fB\ Usage:\fR "@include ~/.config/wmfs/wmfs_themes"\&.
+\fB\ Usage:\fR "@include ~/.config/stwm/stwm_themes"\&.
 .RE
 .PP
 \fB\ [themes]\fR
-wmfsrc supports themes for client and statusbar\&.
+stwmrc supports themes for client and statusbar\&.
 .RS 2
 \fB Misc\fR
 .RS 2
@@ -771,9 +771,10 @@ native prompt. ex:\fB\ func = "launcher" cmd = "exec"\fR display the “exec” 
 .PP
 .sp
 .SH "BUGS"
-WMFS isn\'t stable for now\&. So it certainly contains some bugs\&.
+STWM isn\'t stable for now\&. So it certainly contains some bugs\&.
 .sp
 .SH "AUTHOR"
+Kevin Hoos <\fIkevin@yungblood\&.com\fR\&[1]>\&.
 Martin Duquesnoy <\fIxorg62@gmail\&.com\fR\&[1]>\&.
 .sp
 .SH "WWW"

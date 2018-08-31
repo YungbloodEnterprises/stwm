@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -62,23 +62,23 @@ ewmh_init(void)
      W->net_atom[manager]                        = ATOM("MANAGER");
      W->net_atom[utf8_string]                    = ATOM("UTF8_STRING");
 
-     /* WMFS hints */
-     W->net_atom[wmfs_running]                   = ATOM("_WMFS_RUNNING");
-     W->net_atom[wmfs_focus]                     = ATOM("_WMFS_FOCUS");
-     W->net_atom[wmfs_update_hints]              = ATOM("_WMFS_UPDATE_HINTS");
-     W->net_atom[wmfs_set_screen]                = ATOM("_WMFS_SET_SCREEN");
-     W->net_atom[wmfs_screen_count]              = ATOM("_WMFS_SCREEN_COUNT");
-     W->net_atom[wmfs_current_tag]               = ATOM("_WMFS_CURRENT_TAG");
-     W->net_atom[wmfs_tag_list]                  = ATOM("_WMFS_TAG_LIST");
-     W->net_atom[wmfs_current_screen]            = ATOM("_WMFS_CURRENT_SCREEN");
-     W->net_atom[wmfs_current_layout]            = ATOM("_WMFS_CURRENT_LAYOUT");
-     W->net_atom[wmfs_function]                  = ATOM("_WMFS_FUNCTION");
-     W->net_atom[wmfs_cmd]                       = ATOM("_WMFS_CMD");
+     /* stwm hints */
+     W->net_atom[stwm_running]                   = ATOM("_stwm_RUNNING");
+     W->net_atom[stwm_focus]                     = ATOM("_stwm_FOCUS");
+     W->net_atom[stwm_update_hints]              = ATOM("_stwm_UPDATE_HINTS");
+     W->net_atom[stwm_set_screen]                = ATOM("_stwm_SET_SCREEN");
+     W->net_atom[stwm_screen_count]              = ATOM("_stwm_SCREEN_COUNT");
+     W->net_atom[stwm_current_tag]               = ATOM("_stwm_CURRENT_TAG");
+     W->net_atom[stwm_tag_list]                  = ATOM("_stwm_TAG_LIST");
+     W->net_atom[stwm_current_screen]            = ATOM("_stwm_CURRENT_SCREEN");
+     W->net_atom[stwm_current_layout]            = ATOM("_stwm_CURRENT_LAYOUT");
+     W->net_atom[stwm_function]                  = ATOM("_stwm_FUNCTION");
+     W->net_atom[stwm_cmd]                       = ATOM("_stwm_CMD");
 
      XChangeProperty(W->dpy, W->root, W->net_atom[net_supported], XA_ATOM, 32,
                      PropModeReplace, (unsigned char*)W->net_atom, net_last);
 
-     XChangeProperty(W->dpy, W->root, W->net_atom[wmfs_running], XA_CARDINAL, 32,
+     XChangeProperty(W->dpy, W->root, W->net_atom[stwm_running], XA_CARDINAL, 32,
                      PropModeReplace, (unsigned char*)&b, 1);
 
      /* Set _NET_SUPPORTING_WM_CHECK */
@@ -86,10 +86,10 @@ ewmh_init(void)
                      PropModeReplace, (unsigned char*)&W->root, 1);
 
      XChangeProperty(W->dpy, W->root, ATOM("WM_CLASS"), XA_STRING, 8,
-                     PropModeReplace, (unsigned char*)&"wmfs", 4);
+                     PropModeReplace, (unsigned char*)&"stwm", 4);
 
      XChangeProperty(W->dpy, W->root, W->net_atom[net_wm_name], W->net_atom[utf8_string], 8,
-                     PropModeReplace, (unsigned char*)&"wmfs2", 5);
+                     PropModeReplace, (unsigned char*)&"stwm", 5);
 
          /*
 
@@ -164,7 +164,7 @@ ewmh_get_xembed_state(Window win)
 }
 
 void
-ewmh_update_wmfs_props(void)
+ewmh_update_stwm_props(void)
 {
      struct screen *s;
      int i, ns = 0;
@@ -181,11 +181,11 @@ ewmh_update_wmfs_props(void)
           cts[i] = (s->seltag ? s->seltag->id : 0);
      }
 
-     XChangeProperty(W->dpy, W->root, W->net_atom[wmfs_current_tag], XA_CARDINAL, 32,
+     XChangeProperty(W->dpy, W->root, W->net_atom[stwm_current_tag], XA_CARDINAL, 32,
                      PropModeReplace, (unsigned char*)cts, ns);
 
      if(W->client)
-          XChangeProperty(W->dpy, W->root, W->net_atom[wmfs_focus], XA_WINDOW, 32,
+          XChangeProperty(W->dpy, W->root, W->net_atom[stwm_focus], XA_WINDOW, 32,
                           PropModeReplace, (unsigned char*)&W->client->win, 1);
 
      free(cts);

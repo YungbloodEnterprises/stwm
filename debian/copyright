@@ -1,6 +1,6 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: wmfs
-Source: http://wmfs.info
+Upstream-Name: stwm
+Source: http://stwm.info
 
 Files: *
 Copyright: 2011-2012 Martin Duquesnoy <xorg62@gmail.com>

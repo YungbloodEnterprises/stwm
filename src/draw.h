@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -14,7 +14,7 @@
 #include <Imlib2.h>
 #endif /* HAVE_IMLIB2 */
 
-#include "wmfs.h"
+#include "stwm.h"
 #include "config.h"
 #include "screen.h"
 

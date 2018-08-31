@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <X11/Xutil.h>
 
-#include "wmfs.h"
+#include "stwm.h"
 #include "event.h"
 #include "util.h"
 #include "infobar.h"
@@ -250,7 +250,7 @@ launcher_process(struct launcher *l)
      XEvent ev;
      KeySym ks;
 
-     W->flags |= WMFS_LAUNCHER;
+     W->flags |= stwm_LAUNCHER;
 
      /* Prepare elements */
      xasprintf(&data, "%s ", l->prompt);
@@ -416,7 +416,7 @@ launcher_process(struct launcher *l)
      free(data);
 
      /* 'Close' launcher elements */
-     W->flags ^= WMFS_LAUNCHER;
+     W->flags ^= stwm_LAUNCHER;
      data = NULL;
      LAUNCHER_INIT_ELEM(1);
 }

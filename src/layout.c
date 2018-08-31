@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -417,7 +417,7 @@ layout_split_integrate(struct client *c, struct client *sc)
           {
                client_maximize(c);
                c->flags |= CLIENT_TILED;
-               W->flags &= ~WMFS_TABNOC;
+               W->flags &= ~stwm_TABNOC;
                return;
           }
      }

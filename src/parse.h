@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2010 Philippe Pepiot <phil@philpep.org>
  * Copyright (c) 2011 Martin Duquesnoy <xorg62@gmail.com>
+ * Copyright (c) 2018 Kevin Hoos <kevin@yungblood.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,7 +19,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-#include "wmfs.h"
+#include "stwm.h"
 
 #define INCLUDE_CMD "@include"
 #define PARSE_MAX_LIST 32

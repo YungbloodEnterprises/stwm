@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -66,17 +66,17 @@ tag_screen(struct screen *s, struct tag *t)
      clients_arrange_map();
 
      /* Update focus */
-     if(!SLIST_EMPTY(&t->clients) && !(W->flags & WMFS_SCAN))
+     if(!SLIST_EMPTY(&t->clients) && !(W->flags & stwm_SCAN))
      {
           client_focus( client_tab_next(t->sel));
-          W->flags |= WMFS_IGN_ENTER;
+          W->flags |= stwm_IGN_ENTER;
      }
 
      t->flags &= ~TAG_URGENT;
 
      infobar_elem_screen_update(s, ElemTag);
 
-     ewmh_update_wmfs_props();
+     ewmh_update_stwm_props();
 }
 
 /* Set t to NULL to untag c from c->tag */
@@ -195,7 +195,7 @@ uicb_tag_next(Uicb cmd)
 
      if((t = TAILQ_NEXT(W->screen->seltag, next)))
                tag_screen(W->screen, t);
-     else if(W->flags & WMFS_TAGCIRC)
+     else if(W->flags & stwm_TAGCIRC)
           tag_screen(W->screen, TAILQ_FIRST(&W->screen->tags));
 }
 
@@ -207,7 +207,7 @@ uicb_tag_prev(Uicb cmd)
 
      if((t = TAILQ_PREV(W->screen->seltag, tsub, next)))
           tag_screen(W->screen, t);
-     else if(W->flags & WMFS_TAGCIRC)
+     else if(W->flags & stwm_TAGCIRC)
           tag_screen(W->screen, TAILQ_LAST(&W->screen->tags, tsub));
 }
 
@@ -239,7 +239,7 @@ uicb_tag_move_client_next(Uicb cmd)
 
      if((t = TAILQ_NEXT(W->screen->seltag, next)))
           tag_client(t, W->client);
-     else if(W->flags & WMFS_TAGCIRC)
+     else if(W->flags & stwm_TAGCIRC)
           tag_client(TAILQ_FIRST(&W->screen->tags), W->client);
 }
 
@@ -254,7 +254,7 @@ uicb_tag_move_client_prev(Uicb cmd)
 
      if((t = TAILQ_PREV(W->screen->seltag, tsub, next)))
           tag_client(t, W->client);
-     else if(W->flags & WMFS_TAGCIRC)
+     else if(W->flags & stwm_TAGCIRC)
           tag_client(TAILQ_LAST(&W->screen->tags, tsub), W->client);
 }
 

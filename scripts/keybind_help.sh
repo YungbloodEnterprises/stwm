@@ -1,5 +1,5 @@
 #! /bin/sh
-# simple help script for WMFS2 by arpinux
+# simple help script for stwm by arpinux
 # default keybinds list
 
 xpos="5"
@@ -8,12 +8,12 @@ width="350"
 height="730"
 bg="#222222"
 fg="#7D7D7D"
-l01="^s[80;12;$bg;WMFS²         Keybinds Help]"
+l01="^s[80;12;$bg;stwm²         Keybinds Help]"
 l03="^s[15;35;$fg;launch terminal:]^s[190;35;$fg;Super + Return]"
 l04="^s[15;50;$fg;launch prompt:]^s[190;50;$fg;Super + p]"
 l05="^s[15;65;$fg;close client:]^s[190;65;$fg;Super + q]"
-l06="^s[15;80;$fg;reload wmfs:]^s[190;80;$fg;Control + Alt + r]"
-l07="^s[15;95;$fg;quit wmfs:]^s[190;95;$fg;Control + Alt + q]"
+l06="^s[15;80;$fg;reload stwm:]^s[190;80;$fg;Control + Alt + r]"
+l07="^s[15;95;$fg;quit stwm:]^s[190;95;$fg;Control + Alt + q]"
 
 l08="^s[15;115;$fg;next client:]^s[190;115;$fg;Alt + Tab]"
 l09="^s[15;130;$fg;prev client:]^s[190;130;$fg;Alt + Shift + Tab]"
@@ -61,4 +61,4 @@ l47="^s[15;715;$fg;delete tag:]^s[190;715;$fg;Super + -]"
 
 frame="^R[0;0;350;15;$fg] ^R[0;728;350;2;$fg] ^R[0;0;2;730;$fg] ^R[348;0;2;730;$fg]"
 
-wmfs -c status_surface "$xpos,$ypos,$width,$height,$bg $frame $l01 $l03 $l04 $l05 $l06 $l07 $l08 $l09 $l10 $l11 $l12 $l13 $l14 $l15 $l16 $l17 $l18 $l19 $l20 $l21 $l22 $l23 $l24 $l25 $l26 $l27 $l28 $l29 $l30 $l31 $l32 $l33 $l34 $l35 $l36 $l37 $l38 $l39 $l40 $l41 $l42 $l43 $l44 $l45 $l46 $l47"
+stwm -c status_surface "$xpos,$ypos,$width,$height,$bg $frame $l01 $l03 $l04 $l05 $l06 $l07 $l08 $l09 $l10 $l11 $l12 $l13 $l14 $l15 $l16 $l17 $l18 $l19 $l20 $l21 $l22 $l23 $l24 $l25 $l26 $l27 $l28 $l29 $l30 $l31 $l32 $l33 $l34 $l35 $l36 $l37 $l38 $l39 $l40 $l41 $l42 $l43 $l44 $l45 $l46 $l47"

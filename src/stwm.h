@@ -1,10 +1,10 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
-#ifndef WMFS_H
-#define WMFS_H
+#ifndef stwm_H
+#define stwm_H
 
 /* Standard */
 #include <stdio.h>
@@ -29,7 +29,7 @@
 /* Local */
 #include "log.h"
 
-#define CONFIG_DEFAULT_PATH ".config/wmfs/wmfsrc"
+#define CONFIG_DEFAULT_PATH ".config/stwm/stwmrc"
 
 #define ButtonMask (ButtonPressMask | ButtonReleaseMask | ButtonMotionMask)
 #define MouseMask  (ButtonMask | PointerMotionMask)
@@ -350,7 +350,7 @@ struct _systray
 
 #define MAX_PATH_LEN 8192
 
-struct wmfs
+struct stwm
 {
      /* X11 stuffs */
      Display *dpy;
@@ -360,17 +360,17 @@ struct wmfs
      int nscreen;
      unsigned int client_mod;
      Flags numlockmask;
-#define WMFS_SCAN      0x001
-#define WMFS_RUNNING   0x002
-#define WMFS_RELOAD    0x004
-#define WMFS_SYSTRAY   0x008
-#define WMFS_LOG       0x010
-#define WMFS_LAUNCHER  0x020
-#define WMFS_SIGCHLD   0x040
-#define WMFS_TABNOC    0x080 /* tab next opened client */
-#define WMFS_TAGCIRC   0x100 /* tab_next on last tag -> go to first tag / tab_prev on first tag -> go to last tag */
-#define WMFS_AUTOFOCUS 0x200
-#define WMFS_IGN_ENTER 0x400
+#define stwm_SCAN      0x001
+#define stwm_RUNNING   0x002
+#define stwm_RELOAD    0x004
+#define stwm_SYSTRAY   0x008
+#define stwm_LOG       0x010
+#define stwm_LAUNCHER  0x020
+#define stwm_SIGCHLD   0x040
+#define stwm_TABNOC    0x080 /* tab next opened client */
+#define stwm_TAGCIRC   0x100 /* tab_next on last tag -> go to first tag / tab_prev on first tag -> go to last tag */
+#define stwm_AUTOFOCUS 0x200
+#define stwm_IGN_ENTER 0x400
      Flags flags;
      GC gc, rgc;
      Atom *net_atom;
@@ -434,16 +434,16 @@ struct wmfs
 
 };
 
-int wmfs_error_handler(Display *d, XErrorEvent *event);
-int wmfs_error_handler_dummy(Display *d, XErrorEvent *event);
-void wmfs_grab_keys(void);
-void wmfs_numlockmask(void);
-void wmfs_init_font(char *font, struct theme *t);
-void wmfs_quit(void);
+int stwm_error_handler(Display *d, XErrorEvent *event);
+int stwm_error_handler_dummy(Display *d, XErrorEvent *event);
+void stwm_grab_keys(void);
+void stwm_numlockmask(void);
+void stwm_init_font(char *font, struct theme *t);
+void stwm_quit(void);
 void uicb_reload(Uicb cmd);
 void uicb_quit(Uicb cmd);
 
 /* Single global variable */
-struct wmfs *W;
+struct stwm *W;
 
-#endif /* WMFS_H */
+#endif /* stwm_H */

@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -7,7 +7,7 @@
 #include "ewmh.h"
 #include "config.h"
 #include "util.h"
-#include "wmfs.h"
+#include "stwm.h"
 #include "client.h"
 #include "barwin.h"
 #include "screen.h"
@@ -57,9 +57,9 @@ event_enternotify(XEvent *e)
      XCrossingEvent *ev = &e->xcrossing;
      struct client *c;
 
-     if(W->flags & WMFS_IGN_ENTER)
+     if(W->flags & stwm_IGN_ENTER)
      {
-          W->flags &= ~WMFS_IGN_ENTER;
+          W->flags &= ~stwm_IGN_ENTER;
           return;
      }
 
@@ -115,11 +115,11 @@ event_clientmessageevent(XEvent *e)
      }
      else if(ev->window == W->root)
      {
-          /* WMFS message */
+          /* stwm message */
           if(ev->data.l[4])
           {
-               /* Manage _WMFS_FUNCTION && _WMFS_CMD */
-               if(type == wmfs_function || type == wmfs_cmd)
+               /* Manage _stwm_FUNCTION && _stwm_CMD */
+               if(type == stwm_function || type == stwm_cmd)
                {
                     Atom rt;
                     int d;
@@ -127,12 +127,12 @@ event_clientmessageevent(XEvent *e)
                     unsigned char *ret = NULL, *ret_cmd = NULL;
                     void (*func)(Uicb);
 
-                    if(XGetWindowProperty(EVDPY(e), W->root, W->net_atom[wmfs_function], 0, 65536,
+                    if(XGetWindowProperty(EVDPY(e), W->root, W->net_atom[stwm_function], 0, 65536,
                                           False, W->net_atom[utf8_string], &rt, &d,
                                           &len, &il, &ret) == Success
                        && ret && ((func = uicb_name_func((char*)ret))))
                     {
-                         if(XGetWindowProperty(EVDPY(e), W->root, W->net_atom[wmfs_cmd], 0, 65536,
+                         if(XGetWindowProperty(EVDPY(e), W->root, W->net_atom[stwm_cmd], 0, 65536,
                                                False, W->net_atom[utf8_string], &rt, &d,
                                                &len, &il, &ret_cmd) == Success
                             && len && ret_cmd)
@@ -274,7 +274,7 @@ event_mappingnotify(XEvent *e)
      XRefreshKeyboardMapping(ev);
 
      if(ev->request == MappingKeyboard)
-          wmfs_grab_keys();
+          stwm_grab_keys();
 }
 
 static void

@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -460,7 +460,7 @@ client_frame_update(struct client *c, struct colpair *cp)
 
           SLIST_FOREACH(cc, &c->tag->clients, tnext)
           {
-               title = (cc->title ? cc->title : "WMFS");
+               title = (cc->title ? cc->title : "stwm");
                w = draw_textw(c->theme, title);
                _XTEXT();
 
@@ -674,7 +674,7 @@ _client_focus(struct client *c, const char *caller_func)
           XSetInputFocus(W->dpy, W->root, RevertToPointerRoot, CurrentTime);
      }
 
-     ewmh_update_wmfs_props();
+     ewmh_update_stwm_props();
 }
 
 void
@@ -878,7 +878,7 @@ _apply_rule(struct client *c, struct rule *r)
 
      /* Free rule is not compatible with tab rule */
      if(r->flags & RULE_TAB)
-          W->flags ^= WMFS_TABNOC; /* < can be disable by client_tab_next_opened */
+          W->flags ^= stwm_TABNOC; /* < can be disable by client_tab_next_opened */
 
      if(r->flags & RULE_IGNORE_TAG)
           c->flags |= CLIENT_IGNORE_TAG;
@@ -1028,16 +1028,16 @@ client_new(Window w, XWindowAttributes *wa, bool scan)
      SLIST_INSERT_HEAD(&W->h.client, c, next);
 
      /* Tab next opened client thing */
-     if(W->flags & WMFS_TABNOC)
+     if(W->flags & stwm_TABNOC)
      {
           _client_tab(c, c->tag->sel);
-          W->flags &= ~WMFS_TABNOC;
+          W->flags &= ~stwm_TABNOC;
      }
 
      if(!scan)
      {
           client_get_name(c);
-          if(W->flags & WMFS_AUTOFOCUS)
+          if(W->flags & stwm_AUTOFOCUS)
                client_focus(c);
           client_configure(c);
      }
@@ -1052,22 +1052,22 @@ client_update_props(struct client *c, Flags f)
 {
      if(f & CPROP_LOC)
      {
-          XChangeProperty(W->dpy, c->win, ATOM("_WMFS_TAG"), XA_CARDINAL, 32,
+          XChangeProperty(W->dpy, c->win, ATOM("_stwm_TAG"), XA_CARDINAL, 32,
                           PropModeReplace, (unsigned char*)&(c->tag->id), 1);
 
-          XChangeProperty(W->dpy, c->win, ATOM("_WMFS_SCREEN"), XA_CARDINAL, 32,
+          XChangeProperty(W->dpy, c->win, ATOM("_stwm_SCREEN"), XA_CARDINAL, 32,
                           PropModeReplace, (unsigned char*)&(c->screen->id), 1);
      }
 
      if(f & CPROP_FLAG)
-          XChangeProperty(W->dpy, c->win, ATOM("_WMFS_FLAGS"), XA_CARDINAL, 32,
+          XChangeProperty(W->dpy, c->win, ATOM("_stwm_FLAGS"), XA_CARDINAL, 32,
                           PropModeReplace, (unsigned char*)&(c->flags), 1);
 
      if(f & CPROP_GEO)
      {
           long g[4] = { (long)c->geo.x, (long)c->geo.y, (long)c->geo.w, (long)c->geo.h };
 
-          XChangeProperty(W->dpy, c->win, ATOM("_WMFS_GEO"), XA_CARDINAL, 32,
+          XChangeProperty(W->dpy, c->win, ATOM("_stwm_GEO"), XA_CARDINAL, 32,
                           PropModeReplace, (unsigned char*)g, 4);
 
      }
@@ -1075,7 +1075,7 @@ client_update_props(struct client *c, Flags f)
      if(f & CPROP_TAB)
      {
           Window w = (c->tabmaster ? c->tabmaster->win : 0);
-          XChangeProperty(W->dpy, c->win, ATOM("_WMFS_TABMASTER"), XA_WINDOW, 32,
+          XChangeProperty(W->dpy, c->win, ATOM("_stwm_TABMASTER"), XA_WINDOW, 32,
                           PropModeReplace, (unsigned char*)&w, 1);
      }
 }
@@ -1490,12 +1490,12 @@ client_remove(struct client *c)
      client_untab(c);
 
      XGrabServer(W->dpy);
-     XSetErrorHandler(wmfs_error_handler_dummy);
+     XSetErrorHandler(stwm_error_handler_dummy);
      XReparentWindow(W->dpy, c->win, W->root, c->rgeo.x, c->rgeo.y);
      XUngrabButton(W->dpy, AnyButton, AnyModifier, c->win);
      ewmh_set_wm_state(c->win, WithdrawnState);
      XSync(W->dpy, false);
-     XSetErrorHandler(wmfs_error_handler);
+     XSetErrorHandler(stwm_error_handler);
      XUngrabServer(W->dpy);
 
      SLIST_REMOVE(&W->h.client, c, client, next);
@@ -1556,7 +1556,7 @@ uicb_client_tab_next_opened(Uicb cmd)
 {
      (void)cmd;
 
-     W->flags ^= WMFS_TABNOC;
+     W->flags ^= stwm_TABNOC;
 }
 
 void

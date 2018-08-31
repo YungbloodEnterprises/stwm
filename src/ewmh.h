@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -10,7 +10,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
 
-#include "wmfs.h"
+#include "stwm.h"
 #include "util.h"
 
 /* EWMH/Xembed const from freedesktop */
@@ -80,22 +80,22 @@ enum
      xembedinfo,
      manager,
      utf8_string,
-     /* WMFS HINTS */
-     wmfs_running,
-     wmfs_focus,
-     wmfs_update_hints,
-     wmfs_current_tag,
-     wmfs_current_screen,
-     wmfs_current_layout,
-     wmfs_tag_list,
-     wmfs_mwfact,
-     wmfs_nmaster,
-     wmfs_set_screen,
-     wmfs_screen_count,
-     wmfs_function,
-     wmfs_cmd,
-     wmfs_font,
-     wmfs_statustext,
+     /* stwm HINTS */
+     stwm_running,
+     stwm_focus,
+     stwm_update_hints,
+     stwm_current_tag,
+     stwm_current_screen,
+     stwm_current_layout,
+     stwm_tag_list,
+     stwm_mwfact,
+     stwm_nmaster,
+     stwm_set_screen,
+     stwm_screen_count,
+     stwm_function,
+     stwm_cmd,
+     stwm_font,
+     stwm_statustext,
      net_last
 };
 
@@ -122,7 +122,7 @@ void ewmh_init(void);
 void ewmh_set_wm_state(Window w, int state);
 void ewmh_get_client_list(void);
 long ewmh_get_xembed_state(Window win);
-void ewmh_update_wmfs_props(void);
+void ewmh_update_stwm_props(void);
 void ewmh_manage_state(long data[], struct client *c);
 bool ewmh_manage_state_sticky(Window win);
 void ewmh_manage_window_type(struct client *c);

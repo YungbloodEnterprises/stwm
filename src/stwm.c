@@ -1,5 +1,5 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
@@ -14,7 +14,7 @@
 #include <Imlib2.h>
 #endif /* HAVE_IMLIB2 */
 
-#include "wmfs.h"
+#include "stwm.h"
 #include "event.h"
 #include "ewmh.h"
 #include "screen.h"
@@ -26,7 +26,7 @@
 #include "systray.h"
 
 int
-wmfs_error_handler(Display *d, XErrorEvent *event)
+stwm_error_handler(Display *d, XErrorEvent *event)
 {
       char mess[256];
 
@@ -58,7 +58,7 @@ wmfs_error_handler(Display *d, XErrorEvent *event)
 }
 
 int
-wmfs_error_handler_dummy(Display *d, XErrorEvent *event)
+stwm_error_handler_dummy(Display *d, XErrorEvent *event)
 {
      (void)d;
      (void)event;
@@ -67,7 +67,7 @@ wmfs_error_handler_dummy(Display *d, XErrorEvent *event)
 }
 
 void
-wmfs_numlockmask(void)
+stwm_numlockmask(void)
 {
      int i, j;
      XModifierKeymap *mm = XGetModifierMapping(W->dpy);
@@ -82,7 +82,7 @@ wmfs_numlockmask(void)
 }
 
 void
-wmfs_init_font(char *font, struct theme *t)
+stwm_init_font(char *font, struct theme *t)
 {
 #ifdef HAVE_XFT
      if(!(t->font = XftFontOpenName(W->dpy, W->xscreen, font)))
@@ -116,7 +116,7 @@ wmfs_init_font(char *font, struct theme *t)
 }
 
 static void
-wmfs_xinit(void)
+stwm_xinit(void)
 {
      XGCValues xgc =
      {
@@ -136,7 +136,7 @@ wmfs_xinit(void)
      /*
       * X Error handler
       */
-     XSetErrorHandler(wmfs_error_handler);
+     XSetErrorHandler(stwm_error_handler);
 
      /*
       * X var
@@ -150,7 +150,7 @@ wmfs_xinit(void)
      /*
       * Keys
       */
-     wmfs_numlockmask();
+     stwm_numlockmask();
 
      /*
       * Root window/cursor
@@ -180,16 +180,16 @@ wmfs_xinit(void)
      imlib_context_set_colormap(DefaultColormap(W->dpy, W->xscreen));
 #endif /* HAVE_IMLIB2 */
 
-     W->flags |= WMFS_RUNNING;
+     W->flags |= stwm_RUNNING;
 }
 
 void
-wmfs_grab_keys(void)
+stwm_grab_keys(void)
 {
      KeyCode c;
      struct keybind *k;
 
-     wmfs_numlockmask();
+     stwm_numlockmask();
 
      XUngrabKey(W->dpy, AnyKey, AnyModifier, W->root);
 
@@ -207,7 +207,7 @@ wmfs_grab_keys(void)
   * Check if there are windows on X (previous sessions windows)
 */
 static void
-wmfs_scan(void)
+stwm_scan(void)
 {
      struct geo g;
      struct client *c, *cc, *fc;
@@ -223,10 +223,10 @@ wmfs_scan(void)
 
      SLIST_INIT(&W->h.client);
 
-     W->flags |= WMFS_SCAN;
+     W->flags |= stwm_SCAN;
 
      /* Get previous selected tag to apply it at the end */
-     if(XGetWindowProperty(W->dpy, W->root, W->net_atom[wmfs_current_tag], 0, 32,
+     if(XGetWindowProperty(W->dpy, W->root, W->net_atom[stwm_current_tag], 0, 32,
                            False, XA_CARDINAL, &rt, &rf, &ir, &il,
                            (unsigned char**)&tret)
                == Success && tret)
@@ -235,7 +235,7 @@ wmfs_scan(void)
      }
 
      /* Previous focused client before reload */
-     if(XGetWindowProperty(W->dpy, W->root, W->net_atom[wmfs_focus], 0, 32,
+     if(XGetWindowProperty(W->dpy, W->root, W->net_atom[stwm_focus], 0, 32,
                            False, XA_WINDOW, &rt, &rf, &ir, &il,
                            (unsigned char**)&ret)
                == Success && ret)
@@ -261,7 +261,7 @@ wmfs_scan(void)
                     if(ewmh_manage_window_type_desktop(w[i]))
                          continue;
 
-                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_WMFS_TAG"), 0, 32,
+                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_stwm_TAG"), 0, 32,
                                           False, XA_CARDINAL, &rt, &rf, &ir, &il,
                                           (unsigned char**)&ret)
                               == Success && ret)
@@ -270,7 +270,7 @@ wmfs_scan(void)
                          XFree(ret);
                     }
 
-                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_WMFS_SCREEN"), 0, 32,
+                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_stwm_SCREEN"), 0, 32,
                                           False, XA_CARDINAL, &rt, &rf, &ir, &il,
                                           (unsigned char**)&ret)
                               == Success && ret)
@@ -279,7 +279,7 @@ wmfs_scan(void)
                          XFree(ret);
                     }
 
-                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_WMFS_FLAGS"), 0, 32,
+                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_stwm_FLAGS"), 0, 32,
                                           False, XA_CARDINAL, &rt, &rf, &ir, &il,
                                           (unsigned char**)&ret)
                               == Success && ret)
@@ -289,7 +289,7 @@ wmfs_scan(void)
                          XFree(ret);
                     }
 
-                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_WMFS_GEO"), 0, 32,
+                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_stwm_GEO"), 0, 32,
                                           False, XA_CARDINAL, &rt, &rf, &ir, &il,
                                           (unsigned char**)&ret)
                               == Success && ret)
@@ -303,7 +303,7 @@ wmfs_scan(void)
                          XFree(ret);
                     }
 
-                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_WMFS_TABMASTER"), 0, 32,
+                    if(XGetWindowProperty(W->dpy, w[i], ATOM("_stwm_TABMASTER"), 0, 32,
                                           False, XA_WINDOW, &rt, &rf, &ir, &il,
                                           (unsigned char**)&ret)
                               == Success && ret)
@@ -372,7 +372,7 @@ wmfs_scan(void)
           if(c->flags & CLIENT_TILED)
                layout_fix_hole(c);
 
-     W->flags &= ~WMFS_SCAN;
+     W->flags &= ~stwm_SCAN;
 
      if(tret)
           XFree(tret);
@@ -382,33 +382,33 @@ wmfs_scan(void)
 }
 
 static inline void
-wmfs_sigchld(void)
+stwm_sigchld(void)
 {
-     if(W->flags & WMFS_SIGCHLD)
+     if(W->flags & stwm_SIGCHLD)
      {
           while(waitpid(-1, NULL, WNOHANG) > 0);
-          W->flags ^= WMFS_SIGCHLD;
+          W->flags ^= stwm_SIGCHLD;
      }
 }
 
 static void
-wmfs_loop(void)
+stwm_loop(void)
 {
      XEvent ev;
 
-     while(W->flags & WMFS_RUNNING && !XNextEvent(W->dpy, &ev))
+     while(W->flags & stwm_RUNNING && !XNextEvent(W->dpy, &ev))
      {
           /* Manage SIGCHLD event here, X is not safe with it */
-          wmfs_sigchld();
+          stwm_sigchld();
           EVENT_HANDLE(&ev);
      }
 }
 
 static inline void
-wmfs_init(void)
+stwm_init(void)
 {
      log_init();
-     wmfs_xinit();
+     stwm_xinit();
      ewmh_init();
      screen_init();
      event_init();
@@ -416,7 +416,7 @@ wmfs_init(void)
 }
 
 void
-wmfs_quit(void)
+stwm_quit(void)
 {
      struct keybind *k;
      struct rule *r;
@@ -425,7 +425,7 @@ wmfs_quit(void)
      struct mousebind *m;
      struct launcher *l;
 
-     ewmh_update_wmfs_props();
+     ewmh_update_stwm_props();
 
      XFreeGC(W->dpy, W->rgc);
 
@@ -505,18 +505,18 @@ wmfs_quit(void)
      if(W->log)
           fclose(W->log), W->log = NULL;
 
-     W->flags &= ~WMFS_RUNNING;
+     W->flags &= ~stwm_RUNNING;
 }
 
-/** Reload WMFS binary
+/** Reload stwm binary
 */
 void
 uicb_reload(Uicb cmd)
 {
      (void)cmd;
 
-     W->flags &= ~WMFS_RUNNING;
-     W->flags |= WMFS_RELOAD;
+     W->flags &= ~stwm_RUNNING;
+     W->flags |= stwm_RELOAD;
 }
 
 void
@@ -524,7 +524,7 @@ uicb_quit(Uicb cmd)
 {
      (void)cmd;
 
-     W->flags &= ~WMFS_RUNNING;
+     W->flags &= ~stwm_RUNNING;
 }
 
 static void
@@ -533,19 +533,19 @@ exec_uicb_function(Display *dpy, Window root, char *func, char *cmd)
      Atom utf8s = XInternAtom(dpy, "UTF8_STRING", false);
      XClientMessageEvent e = {
           .type         = ClientMessage,
-          .message_type = XInternAtom(dpy, "_WMFS_FUNCTION", false),
+          .message_type = XInternAtom(dpy, "_stwm_FUNCTION", false),
           .window       = root,
           .format       = 32,
           .data.l[4]    = true
      };
 
-     XChangeProperty(dpy,root, XInternAtom(dpy, "_WMFS_FUNCTION", false), utf8s,
+     XChangeProperty(dpy,root, XInternAtom(dpy, "_stwm_FUNCTION", false), utf8s,
                      8, PropModeReplace, (unsigned char*)func, strlen(func));
 
      if(!cmd)
           cmd = "";
 
-     XChangeProperty(dpy, root, XInternAtom(dpy, "_WMFS_CMD", false), utf8s,
+     XChangeProperty(dpy, root, XInternAtom(dpy, "_stwm_CMD", false), utf8s,
                      8, PropModeReplace, (unsigned char*)cmd, strlen(cmd));
 
      XSendEvent(dpy, root, false, StructureNotifyMask, (XEvent*)&e);
@@ -558,10 +558,10 @@ signal_handle(int sig)
      switch (sig)
      {
      case SIGINT:
-          W->flags &= ~WMFS_RUNNING;
+          W->flags &= ~stwm_RUNNING;
           break;
      case SIGCHLD:
-          W->flags |= WMFS_SIGCHLD;
+          W->flags |= stwm_SIGCHLD;
           break;
      }
 }
@@ -587,14 +587,14 @@ main(int argc, char **argv)
                case 'h':
                     printf("usage: %s [-hv] [-c <func> <cmd] [-C <file>]\n"
                            "   -h                Show this page\n"
-                           "   -v                Show WMFS version\n"
+                           "   -v                Show stwm version\n"
                            "   -c <func> <cmd>   Execute a specified UICB function\n"
-                           "   -C <file>         Launch WMFS with a specified configuration file\n", argv[0]);
+                           "   -C <file>         Launch stwm with a specified configuration file\n", argv[0]);
                     exit(EXIT_SUCCESS);
                     break;
 
                case 'v':
-                    printf("wmfs("WMFS_VERSION") 2 beta\n");
+                    printf("stwm("stwm_VERSION") 2 beta\n");
                     exit(EXIT_SUCCESS);
                     break;
 
@@ -617,9 +617,9 @@ main(int argc, char **argv)
           }
      }
 
-     W = (struct wmfs*)xcalloc(1, sizeof(struct wmfs));
+     W = (struct stwm*)xcalloc(1, sizeof(struct stwm));
 
-     /* Default path ~/.config/wmfs/wmfsrc */
+     /* Default path ~/.config/stwm/stwmrc */
      W->confpath = path;
 
      /* Get X display */
@@ -639,12 +639,12 @@ main(int argc, char **argv)
      sigaction(SIGCHLD, &sa, NULL);
 
      /* Core */
-     wmfs_init();
-     wmfs_scan();
-     wmfs_loop();
-     wmfs_quit();
+     stwm_init();
+     stwm_scan();
+     stwm_loop();
+     stwm_quit();
 
-     r = (W->flags & WMFS_RELOAD);
+     r = (W->flags & stwm_RELOAD);
      free(W);
 
      if(r)

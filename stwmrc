@@ -1,5 +1,5 @@
 #
-# WMFS2 configuration file
+# STWM configuration file
 #
 
 # Possible file inclusion:
@@ -15,13 +15,13 @@
      font = "fixed"
 
      # Bars
-     bars_width = 14
+     bars_width = 50
      bars_fg = "#AABBAA"
      bars_bg = "#223322"
 
      # Element tags
      tags_normal_fg = "#AABBAA"
-     tags_normal_bg = "#223322"
+     tags_normal_bg = "#0000FF"
      # tags_normal_statusline = ""
 
      tags_sel_fg    = "#223322"

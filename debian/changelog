@@ -1,17 +1,17 @@
-wmfs (2~beta201206-3) unstable; urgency=low
+stwm (2~beta201206-3) unstable; urgency=low
 
   * No hardening-related Lintiant warnings 
 
  -- Mickaël Raybaud-Roig <raybaudroigm@gmail.com>  Sun, 24 Jun 2012 16:40:54 +0200
 
-wmfs (2~beta201206-2) unstable; urgency=low
+stwm (2~beta201206-2) unstable; urgency=low
 
   * Fixed some Lintian warnings
   * New standards version
 
  -- Mickaël Raybaud-Roig <raybaudroigm@gmail.com>  Sun, 24 Jun 2012 15:19:38 +0200
 
-wmfs (2~beta201206-1) unstable; urgency=low
+stwm (2~beta201206-1) unstable; urgency=low
 
   * Updated changelog version
   * Added build-depends to the control file
@@ -19,7 +19,7 @@ wmfs (2~beta201206-1) unstable; urgency=low
 
  -- Mickaël Raybaud-Roig <raybaudroigm@gmail.com>  Sun, 24 Jun 2012 13:12:26 +0200
 
-wmfs (2~beta-3) unstable; urgency=low
+stwm (2~beta-3) unstable; urgency=low
 
   * Modified build script (debian/rules)
   * Modified versions in changelog
@@ -29,7 +29,7 @@ wmfs (2~beta-3) unstable; urgency=low
 
  -- Mickaël Raybaud-Roig <raybaudroigm@gmail.com>  Sat, 18 Feb 2012 19:40:09 +0100
 
-wmfs (2~beta-2) unstable; urgency=low
+stwm (2~beta-2) unstable; urgency=low
 
   * Added a manpage
   * Modified the debian/rules script
@@ -38,7 +38,7 @@ wmfs (2~beta-2) unstable; urgency=low
 
  -- Mickaël Raybaud-Roig <raybaudroigm@gmail.com>  Sat, 28 Jan 2012 12:44:18 +0100
 
-wmfs (2~beta-1) unstable; urgency=low
+stwm (2~beta-1) unstable; urgency=low
 
   * Initial release
 

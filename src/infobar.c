@@ -1,9 +1,9 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
-#include "wmfs.h"
+#include "stwm.h"
 #include "draw.h"
 #include "infobar.h"
 #include "barwin.h"
@@ -188,7 +188,7 @@ infobar_elem_status_init(struct element *e)
           SLIST_INSERT_HEAD(&e->bars, b, enext);
 
           e->infobar->statusctx = status_new_ctx(b, e->infobar->theme);
-          e->infobar->statusctx.status = strdup("wmfs2");
+          e->infobar->statusctx.status = strdup("stwm");
           e->infobar->statusctx.flags |= STATUS_UPDATE;
      }
      else
@@ -221,7 +221,7 @@ infobar_elem_systray_init(struct element *e)
      struct barwin *b;
 
      /* Activate systray mask; no more systray element allowed now */
-     W->flags |= WMFS_SYSTRAY;
+     W->flags |= stwm_SYSTRAY;
 
      W->systray.infobar = e->infobar;
 
@@ -258,7 +258,7 @@ infobar_elem_launcher_init(struct element *e)
 {
      struct barwin *b;
 
-     if(!(W->flags & WMFS_LAUNCHER))
+     if(!(W->flags & stwm_LAUNCHER))
           e->geo.w = 1;
 
      infobar_elem_placement(e);
@@ -286,7 +286,7 @@ infobar_elem_launcher_update(struct element *e)
      struct barwin *b = SLIST_FIRST(&e->bars);
      int l;
 
-     if(!(W->flags & WMFS_LAUNCHER))
+     if(!(W->flags & stwm_LAUNCHER))
           return;
 
      barwin_refresh_color(b);
@@ -331,8 +331,8 @@ infobar_elem_init(struct infobar *i)
                break;
           }
 
-          /* Only one systray element in a wmfs session */
-          if(i->elemorder[n] == 'y' && W->flags & WMFS_SYSTRAY)
+          /* Only one systray element in a stwm session */
+          if(i->elemorder[n] == 'y' && W->flags & stwm_SYSTRAY)
                continue;
 
           for(j = 0; j < (int)LEN(elem_funcs); ++j)
@@ -356,7 +356,7 @@ infobar_elem_init(struct infobar *i)
           for(k = l - 1; k >= n; --k)
           {
                /* Only one status */
-               if(i->elemorder[k] == 's' || (i->elemorder[n] == 'y' && W->flags & WMFS_SYSTRAY))
+               if(i->elemorder[k] == 's' || (i->elemorder[n] == 'y' && W->flags & stwm_SYSTRAY))
                     continue;
 
                for(j = 0; j < (int)LEN(elem_funcs); ++j)

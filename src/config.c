@@ -1,10 +1,10 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
 #include "config.h"
-#include "wmfs.h"
+#include "stwm.h"
 #include "parse.h"
 #include "tag.h"
 #include "screen.h"
@@ -69,7 +69,7 @@ config_theme(void)
 
           t->name = fetch_opt_first(ks[i], "default", "name").str;
 
-          wmfs_init_font(fetch_opt_first(ks[i], "fixed", "font").str, t);
+          stwm_init_font(fetch_opt_first(ks[i], "fixed", "font").str, t);
 
           /* bars */
           t->bars.fg    = fgcolor_atoh(fetch_opt_first(ks[i], "#CCCCCC", "bars_fg").str);
@@ -193,7 +193,7 @@ config_tag(void)
      n = fetch_section_count(ks);
 
      if (fetch_opt_first(sec, "1", "circular").boolean)
-          W->flags |= WMFS_TAGCIRC;
+          W->flags |= stwm_TAGCIRC;
 
      /* [mouse] */
      if((mb = fetch_section(sec, "mouse")))
@@ -241,7 +241,7 @@ config_client(void)
      W->client_mod = modkey_keysym(fetch_opt_first(sec, "Super", "key_modifier").str);
 
      if(fetch_opt_first(sec, "0", "autofocus").boolean)
-          W->flags |= WMFS_AUTOFOCUS;
+          W->flags |= stwm_AUTOFOCUS;
 
      /* Get theme */
      tmp = fetch_opt_first(sec, "default", "theme").str;
@@ -388,7 +388,7 @@ config_keybind(void)
           SLIST_INSERT_HEAD(&W->h.keybind, k, next);
      }
 
-     wmfs_grab_keys();
+     stwm_grab_keys();
 
      free(ks);
 }
@@ -404,7 +404,7 @@ config_init(void)
           if(get_conf(W->confpath) == -1)
           {
                warnxl("parsing default configuration file (%s) failed.", W->confpath);
-               sprintf(W->confpath, "%s/wmfs/wmfsrc", XDG_CONFIG_DIR);
+               sprintf(W->confpath, "%s/stwm/stwmrc", XDG_CONFIG_DIR);
 
                if(get_conf(W->confpath) == -1)
                    errxl(1, "parsing system configuration file (%s) failed.", W->confpath);

@@ -1,12 +1,12 @@
 /*
- *  wmfs2 by Martin Duquesnoy <xorg62@gmail.com> { for(i = 2011; i < 2111; ++i) ©(i); }
+ *  stwm by Kevin Hoos <kevin@yungblood.com> { for(i = 2018; i < 2118; ++i) ©(i); }
  *  For license, see COPYING.
  */
 
 #ifndef STATUS_H
 #define STATUS_H
 
-#include "wmfs.h"
+#include "stwm.h"
 
 struct status_ctx status_new_ctx(struct barwin *b, struct theme *t);
 void status_free_ctx(struct status_ctx *ctx);

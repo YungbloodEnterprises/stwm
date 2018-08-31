@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=stwm
+Comment=Simple Touch Window Manager
+TryExec=stwm
+Exec=stwm

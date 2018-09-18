@@ -7,86 +7,130 @@
 
 # Multi theme section
 [themes]
+	[theme]
+		# No name mean default
+		name = "top"
+		
+		font = "fixed"
+		
+		# Bars
+		bars_width = 25
+		bars_fg = "#AABBAA"
+		bars_bg = "#223322"
+		
+		# Element tags
+		tags_normal_fg = "#AABBAA"
+		tags_normal_bg = "#0000FF"
+		# tags_normal_statusline = ""
+		
+		tags_sel_fg    = "#223322"
+		tags_sel_bg    = "#AABBAA"
+		# tags_sel_statusline = ""
+		
+		tags_occupied_fg = "#AABBAA"
+		tags_occupied_bg = "#445544"
+		tags_occupied_statusline = "\R[0;0;100;1;#AABBAA]"
+		
+		tags_urgent_fg    = "#223322"
+		tags_urgent_bg    = "#CC5544"
+		# tags_urgent_statusline = ""
+		
+		tags_border_color = "#112211"
+		tags_border_width = 1
+		
+		# Frame / Client
+		client_normal_fg = "#AABBAA"
+		client_normal_bg = "#223322"
+		client_normal_statusline = "\s[3;9;#121212;x] \s[2;8;#ff0000;x](1;client_close)"
+		
+		client_sel_fg = "#223322"
+		client_sel_bg = "#AABBAA"
+		client_sel_statusline = "\s[3;9;#121212;x] \s[2;8;#ff0000;x](1;client_close)"
+		
+		# client_free_statusline = ""
+		
+		frame_bg = "#555555"
+		client_titlebar_width = 12
+		client_border_width = 1
+	[/theme]
 
-  [theme]
-     # No name mean default
-     # name = "default"
-
-     font = "fixed"
-
-     # Bars
-     bars_width = 50
-     bars_fg = "#AABBAA"
-     bars_bg = "#223322"
-
-     # Element tags
-     tags_normal_fg = "#AABBAA"
-     tags_normal_bg = "#0000FF"
-     # tags_normal_statusline = ""
-
-     tags_sel_fg    = "#223322"
-     tags_sel_bg    = "#AABBAA"
-     # tags_sel_statusline = ""
-
-     tags_occupied_fg = "#AABBAA"
-     tags_occupied_bg = "#445544"
-     tags_occupied_statusline = "\R[0;0;100;1;#AABBAA]"
-
-     tags_urgent_fg    = "#223322"
-     tags_urgent_bg    = "#CC5544"
-     # tags_urgent_statusline = ""
-
-     tags_border_color = "#112211"
-     tags_border_width = 1
-
-     # Frame / Client
-     client_normal_fg = "#AABBAA"
-     client_normal_bg = "#223322"
-     client_normal_statusline = "\s[3;9;#121212;x] \s[2;8;#ff0000;x](1;client_close)"
-
-     client_sel_fg = "#223322"
-     client_sel_bg = "#AABBAA"
-     client_sel_statusline = "\s[3;9;#121212;x] \s[2;8;#ff0000;x](1;client_close)"
-
-     # client_free_statusline = ""
-
-     frame_bg = "#555555"
-     client_titlebar_width = 12
-     client_border_width = 1
-
-   [/theme]
-
+	[theme]
+		# No name mean default
+    	name = "left"
+		
+		font = "fixed"
+		
+		# Bars
+		bars_width = 25
+		bars_fg = "#AABBAA"
+		bars_bg = "#223322"
+		
+		# Element tags
+		tags_normal_fg = "#AABBAA"
+		tags_normal_bg = "#0000FF"
+		# tags_normal_statusline = ""
+		
+		tags_sel_fg    = "#223322"
+		tags_sel_bg    = "#AABBAA"
+		# tags_sel_statusline = ""
+		
+		tags_occupied_fg = "#AABBAA"
+		tags_occupied_bg = "#445544"
+		tags_occupied_statusline = "\R[0;0;100;1;#AABBAA]"
+		
+		tags_urgent_fg    = "#223322"
+		tags_urgent_bg    = "#CC5544"
+		# tags_urgent_statusline = ""
+		
+		tags_border_color = "#112211"
+		tags_border_width = 1
+		
+		# Frame / Client
+		client_normal_fg = "#AABBAA"
+		client_normal_bg = "#223322"
+		client_normal_statusline = "\s[3;9;#121212;x] \s[2;8;#ff0000;x](1;client_close)"
+		
+		client_sel_fg = "#223322"
+		client_sel_bg = "#AABBAA"
+		client_sel_statusline = "\s[3;9;#121212;x] \s[2;8;#ff0000;x](1;client_close)"
+		
+		# client_free_statusline = ""
+		
+		frame_bg = "#555555"
+		client_titlebar_width = 12
+		client_border_width = 1
+	[/theme]
 [/themes]
 
 [bars]
+	# Position:
+	#
+	# 0  Right
+	# 1  Left
+	# 2  Top
+	# 3  Bottom
+	# 4  Hide
+	
+	# Element type:
+	#
+	# t  Tags
+	# s  Statustext (will take available space)
+	# y  Systray (can be set only ONE time among all element)
+	# l  Launcher (will be expended at launcher use)
 
-  # Position:
-  #
-  # 0  Top
-  # 1  Bottom
-  # 2  Hide
+	[bar]
+		position = 0
+		screen = 0
+		elements = "tl"   # element order in bar
+		theme = "left"
+	[/bar]
 
-  # Element type:
-  #
-  # t  Tags
-  # s  Statustext (will take available space)
-  # y  Systray (can be set only ONE time among all element)
-  # l  Launcher (will be expended at launcher use)
-
-  [bar]
-     position = 1
-     screen = 0
-     elements = "tlsy"   # element order in bar
-     theme = "default"
-  [/bar]
-
-# [bar]
-#    position = 0
-#    screen = 0
-#    elements = "ts"
-#    theme = "default"
-# [/bar]
-
+	[bar]
+		position = 4
+		screen = 0
+		elements = "sy"   # element order in bar
+		theme = "top"
+	[/bar]
 [/bars]
 
 [tags]

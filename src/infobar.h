@@ -47,6 +47,14 @@ infobar_placement(struct infobar *i, enum barpos p)
 
      switch(p)
      {
+		 case BarRight:
+			  i->screen->ugeo.x += i->geo.w;
+			  i->screen->ugeo.w -= i->geo.w;
+			  break;
+		 case BarLeft:
+			  i->geo.x = (i->screen->ugeo.x + i->screen->ugeo.w) - i->geo.w;
+			  i->screen->ugeo.w -= i->geo.w;
+			  break;
           case BarTop:
                i->screen->ugeo.y += i->geo.h;
                i->screen->ugeo.h -= i->geo.h;

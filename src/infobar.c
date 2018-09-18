@@ -458,6 +458,7 @@ infobar_new(struct screen *s, char *name, struct theme *theme, enum barpos pos, 
      infobar_elem_init(i);
 
      /* Render, only if pos is Top or Bottom */
+     warnl("Map: %d\n", map);
      if(!map)
           return i;
 

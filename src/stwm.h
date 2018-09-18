@@ -50,7 +50,9 @@ typedef Color FgColor;
 
 enum barpos
 {
-     BarTop = 0,
+	 BarRight = 0, //Added Right & Left.
+	 BarLeft,
+     BarTop,
      BarBottom,
      BarHide,
      BarLast

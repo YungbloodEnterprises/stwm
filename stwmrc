@@ -74,7 +74,7 @@
   # l  Launcher (will be expended at launcher use)
 
   [bar]
-     position = 0
+     position = 1
      screen = 0
      elements = "tlsy"   # element order in bar
      theme = "default"
@@ -82,7 +82,7 @@
 
 # [bar]
 #    position = 0
-#    screen = 1
+#    screen = 0
 #    elements = "ts"
 #    theme = "default"
 # [/bar]
@@ -97,16 +97,14 @@
   # Use no screen option or screen = -1 to set tag on each screen
   [tag]
       screen = -1
-      name = "1"
+      name = "Status"
       # statusline=""
   [/tag]
 
-  [tag] name = "2" [/tag]
-  [tag] name = "3" [/tag]
-  [tag] name = "4" [/tag]
-  [tag] name = "5" [/tag]
-  [tag] name = "6" [/tag]
-  [tag] name = "7" [/tag]
+  [tag] name = "Navigation" [/tag]
+  [tag] name = "Audio" [/tag]
+  [tag] name = "Video" [/tag]
+  [tag] name = "Settings" [/tag]
 
   # Mousebinds associated to Tags element button
   [mouse] button = "1" func = "tag_click" [/mouse]

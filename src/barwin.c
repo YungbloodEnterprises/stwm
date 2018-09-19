@@ -132,5 +132,6 @@ void
 barwin_refresh_color(struct barwin *b)
 {
      XSetForeground(W->dpy, W->gc, b->bg);
-     XFillRectangle(W->dpy, b->dr, W->gc, 0, 0, b->geo.w, b->geo.h);
+     //XFillRectangle(W->dpy, b->dr, W->gc, 0, 0, b->geo.w, b->geo.h);
+     XFillArc(W->dpy, b->dr, W->gc, 0, 0, b->geo.w*2, b->geo.h*2, 90*64, 90*64);
 }

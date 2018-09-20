@@ -119,7 +119,7 @@
 	# l  Launcher (will be expended at launcher use)
 
 	[bar]
-		position = 0
+		position = 3
 		screen = 0
 		elements = "tl"   # element order in bar
 		theme = "left"

@@ -438,6 +438,8 @@ infobar_elem_reinit(struct infobar *i)
 struct infobar*
 infobar_new(struct screen *s, char *name, struct theme *theme, enum barpos pos, const char *elem)
 {
+	 int width = 150;
+	 int height = 25;
      bool map;
      struct infobar *i = (struct infobar*)xcalloc(1, sizeof(struct infobar));
 
@@ -466,6 +468,24 @@ infobar_new(struct screen *s, char *name, struct theme *theme, enum barpos pos, 
      barwin_map_subwin(i->bar);
      barwin_refresh_color(i->bar);
      infobar_refresh(i);
+
+     XSetForeground(W->dpy, W->gc, strtol("0xff0000", 0, 16));
+     XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width, s->ugeo.h);
+     XFillRectangle(W->dpy, W->root, W->gc, 0, 0, s->ugeo.w, height);
+     XFillRectangle(W->dpy, W->root, W->gc, width, height, height*2, height);
+     XSetForeground(W->dpy, W->gc, strtol("0x000000", 0, 16));
+     XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width*0.7, height*2);
+     XFillArc(W->dpy, W->root, W->gc, width, height, height*4, height*2, 90*64, 90*64);
+     XSetForeground(W->dpy, W->gc, strtol("0xff0000", 0, 16));
+     XFillArc(W->dpy, W->root, W->gc, 0, 0, width*1.4, height*4, 90*64, 90*64);
+
+     XSetForeground(W->dpy, W->gc, strtol("0x000000", 0, 16));
+     XFillRectangle(W->dpy, W->root, W->gc, 0, height*3-5, width, 5);
+     XFillRectangle(W->dpy, W->root, W->gc, 0, height*5+1, width, 5);
+
+     XSetForeground(W->dpy, W->gc, strtol("0xff0000", 0, 16));
+     XFillArc(W->dpy, W->root, W->gc, width, height*3, height*2, height*2, 270*64, 180*64);
+     XFillRectangle(W->dpy, W->root, W->gc, width+5, height*3, height-5, height*2+1);
 
      return i;
 }

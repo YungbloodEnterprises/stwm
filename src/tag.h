@@ -10,15 +10,14 @@
 #include "stwm.h"
 
 static inline struct tag*
-tag_gb_id(struct screen *s, int id)
-{
-     struct tag *t;
+tag_gb_id(struct screen *s, int id) {
+	struct tag *t;
 
-     TAILQ_FOREACH(t, &s->tags, next)
-          if(t->id == id)
-               return t;
+	TAILQ_FOREACH(t, &s->tags, next)
+	if (t->id == id)
+		return t;
 
-     return TAILQ_FIRST(&s->tags);
+	return TAILQ_FIRST(&s->tags);
 }
 
 struct tag *tag_new(struct screen *s, char *name);

@@ -48,182 +48,150 @@ typedef Color BgColor;
 typedef Color FgColor;
 #endif /* HAVE_XFT */
 
-enum barpos
-{
-	 BarRight = 0, //Added Right & Left.
-	 BarLeft,
-     BarTop,
-     BarBottom,
-     BarHide,
-     BarLast
+enum barpos {
+	BarRight = 0, //Added Right & Left.
+	BarLeft,
+	BarTop,
+	BarBottom,
+	BarHide,
+	BarLast
 };
 
-enum position
-{
-     Right = 0,
-     Left,
-     Top,
-     Bottom,
-     Center,
-     NoAlign,
-     PositionLast
+enum position {
+	Right = 0, Left, Top, Bottom, Center, NoAlign, PositionLast
 };
 
-enum size_hints
-{
-     BASEW, BASEH,
-     INCW,  INCH,
-     MAXW,  MAXH,
-     MINW,  MINH,
-     MINAX, MINAY,
-     MAXAX, MAXAY,
-     SHLAST
+enum size_hints {
+	BASEW,
+	BASEH,
+	INCW,
+	INCH,
+	MAXW,
+	MAXH,
+	MINW,
+	MINH,
+	MINAX,
+	MINAY,
+	MAXAX,
+	MAXAY,
+	SHLAST
 };
 
 /*
  * Structures
  */
 
-struct geo
-{
-     int x, y, w, h;
+struct geo {
+	int x, y, w, h;
 };
 
-struct geo_list
-{
-     struct geo geo;
-     SLIST_ENTRY(geo_list) next;
+struct geo_list {
+	struct geo geo;SLIST_ENTRY(geo_list) next;
 };
 
-struct colpair
-{
-     FgColor fg;
-     BgColor bg;
+struct colpair {
+	FgColor fg;
+	BgColor bg;
 };
 
-struct barwin
-{
-     struct geo geo;
-     Window win;
-     Drawable dr;
+struct barwin {
+	struct geo geo;
+	Window win;
+	Drawable dr;
 #ifdef HAVE_XFT
-     XftDraw *xftdraw;
+	XftDraw *xftdraw;
 #endif /* HAVE_XFT */
-     FgColor fg;
-     BgColor bg;
-     void *ptr; /* Special cases */
-     SLIST_HEAD(mbhead, mousebind) mousebinds;
-     SLIST_HEAD(, mousebind) statusmousebinds;
-     SLIST_ENTRY(barwin) next;  /* global barwin */
-     SLIST_ENTRY(barwin) enext; /* element barwin */
-     SLIST_ENTRY(barwin) vnext; /* volatile barwin */
+	FgColor fg;
+	BgColor bg;
+	void *ptr; /* Special cases */
+	SLIST_HEAD(mbhead, mousebind) mousebinds;SLIST_HEAD(, mousebind) statusmousebinds;SLIST_ENTRY(barwin) next; /* global barwin */
+	SLIST_ENTRY(barwin) enext; /* element barwin */
+	SLIST_ENTRY(barwin) vnext;
+	/* volatile barwin */
 };
 
-struct status_seq
-{
-     struct geo geo;
-     enum position align;
-     int data[4];
-     char type;
-     char *str;
-     FgColor fg;
-     BgColor bg;
-     BgColor bg2;
-     SLIST_HEAD(, mousebind) mousebinds;
-     SLIST_ENTRY(status_seq) next;
+struct status_seq {
+	struct geo geo;
+	enum position align;
+	int data[4];
+	char type;
+	char *str;
+	FgColor fg;
+	BgColor bg;
+	BgColor bg2;SLIST_HEAD(, mousebind) mousebinds;SLIST_ENTRY(status_seq) next;
 };
 
-struct status_ctx
-{
-     struct barwin *barwin;
-     struct theme *theme;
+struct status_ctx {
+	struct barwin *barwin;
+	struct theme *theme;
 #define STATUS_BLOCK_REFRESH  0x01
 #define STATUS_UPDATE         0x02
-     Flags flags;
-     char *status;
-     SLIST_HEAD(, status_gcache) gcache;
-     SLIST_HEAD(, status_seq) statushead;
+	Flags flags;
+	char *status;SLIST_HEAD(, status_gcache) gcache;SLIST_HEAD(, status_seq) statushead;
 };
 
-struct status_gcache
-{
-     char *name;
-     int *datas;
-     int ndata;
-     SLIST_ENTRY(status_gcache) next;
+struct status_gcache {
+	char *name;
+	int *datas;
+	int ndata;SLIST_ENTRY(status_gcache) next;
 };
 
-struct element
-{
-     struct geo geo;
-     struct infobar *infobar;
-     struct status_ctx *statusctx;
-     int type;
-     char *data;
-     enum position align;
-     void (*func_init)(struct element *e);
-     void (*func_update)(struct element *e);
-     SLIST_HEAD(, barwin) bars;
-     TAILQ_ENTRY(element) next;
+struct element {
+	struct geo geo;
+	struct infobar *infobar;
+	struct status_ctx *statusctx;
+	int type;
+	char *data;
+	enum position align;
+	void (*func_init)(struct element *e);
+	void (*func_update)(struct element *e);SLIST_HEAD(, barwin) bars;TAILQ_ENTRY(element) next;
 };
 
-struct infobar
-{
-     struct barwin *bar;
-     struct geo geo;
-     struct screen *screen;
-     struct theme *theme;
-     struct status_ctx statusctx;
-     enum barpos opos, pos;
-     char *elemorder;
-     char *name;
-     TAILQ_HEAD(esub, element) elements;
-     SLIST_ENTRY(infobar) next;
+struct infobar {
+	struct barwin *bar;
+	struct geo geo;
+	struct screen *screen;
+	struct theme *theme;
+	struct status_ctx statusctx;
+	enum barpos opos, pos;
+	char *elemorder;
+	char *name;TAILQ_HEAD(esub, element) elements;SLIST_ENTRY(infobar) next;
 };
 
-struct screen
-{
-     struct geo geo, ugeo;
-     struct tag *seltag;
+struct screen {
+	struct geo geo, ugeo;
+	struct tag *seltag;
 #define SCREEN_TAG_UPDATE 0x01
-     Flags flags;
-     int id;
-     TAILQ_HEAD(tsub, tag) tags;
-     SLIST_HEAD(, infobar) infobars;
-     SLIST_ENTRY(screen) next;
+	Flags flags;
+	int id;TAILQ_HEAD(tsub, tag) tags;SLIST_HEAD(, infobar) infobars;SLIST_ENTRY(screen) next;
 };
 
 SLIST_HEAD(chead, client);
 
-struct tag
-{
-     struct screen *screen;
-     struct client *sel;
-     struct client *prevsel;
-     struct tag *prev;
-     struct status_ctx statusctx;
-     char *name;
-     int id;
+struct tag {
+	struct screen *screen;
+	struct client *sel;
+	struct client *prevsel;
+	struct tag *prev;
+	struct status_ctx statusctx;
+	char *name;
+	int id;
 #define TAG_URGENT       0x01
 #define TAG_IGNORE_ENTER 0x02
-     Flags flags;
-     SLIST_HEAD(, client) clients;
-     TAILQ_HEAD(ssub, layout_set) sets;
-     TAILQ_ENTRY(tag) next;
+	Flags flags;SLIST_HEAD(, client) clients;TAILQ_HEAD(ssub, layout_set) sets;TAILQ_ENTRY(tag) next;
 };
 
-struct client
-{
-     struct tag *tag, *prevtag;
-     struct screen *screen;
-     struct barwin *titlebar;
-     struct geo geo, wgeo, tgeo, ttgeo, rgeo, *tbgeo;
-     struct colpair ncol, scol;
-     struct theme *theme;
-     struct client *tabmaster;
-     int sizeh[SHLAST];
-     char *title;
-     int border, tbarw;
+struct client {
+	struct tag *tag, *prevtag;
+	struct screen *screen;
+	struct barwin *titlebar;
+	struct geo geo, wgeo, tgeo, ttgeo, rgeo, *tbgeo;
+	struct colpair ncol, scol;
+	struct theme *theme;
+	struct client *tabmaster;
+	int sizeh[SHLAST];
+	char *title;
+	int border, tbarw;
 #define CLIENT_HINT_FLAG     0x01
 #define CLIENT_IGNORE_ENTER  0x02
 #define CLIENT_DID_WINSIZE   0x04
@@ -240,129 +208,109 @@ struct client
 #define CLIENT_TILED         0x2000
 #define CLIENT_MOUSE         0x4000
 #define CLIENT_IGNORE_TAG    0x8000
-     Flags flags;
-     Window win, frame, tmp;
-     SLIST_ENTRY(client) next;   /* Global list */
-     SLIST_ENTRY(client) tnext;  /* struct tag list */
+	Flags flags;
+	Window win, frame, tmp;SLIST_ENTRY(client) next; /* Global list */
+	SLIST_ENTRY(client) tnext;
+	/* struct tag list */
 };
 
-struct layout_set
-{
-     int n;
-     SLIST_HEAD(, geo_list) geos;
-     TAILQ_ENTRY(layout_set) next;
+struct layout_set {
+	int n;SLIST_HEAD(, geo_list) geos;TAILQ_ENTRY(layout_set) next;
 };
 
-struct keybind
-{
-     unsigned int mod;
-     void (*func)(Uicb);
-     Uicb cmd;
-     KeySym keysym;
-     SLIST_ENTRY(keybind) next;
+struct keybind {
+	unsigned int mod;
+	void (*func)(Uicb);
+	Uicb cmd;
+	KeySym keysym;SLIST_ENTRY(keybind) next;
 };
 
-struct mousebind
-{
-     struct geo area;
-     unsigned int button;
-     bool use_area;
-     void (*func)(Uicb);
-     Uicb cmd;
-     SLIST_ENTRY(mousebind) next;
-     SLIST_ENTRY(mousebind) snext;
-     SLIST_ENTRY(mousebind) globnext;
+struct mousebind {
+	struct geo area;
+	unsigned int button;
+	bool use_area;
+	void (*func)(Uicb);
+	Uicb cmd;SLIST_ENTRY(mousebind) next;SLIST_ENTRY(mousebind) snext;SLIST_ENTRY(mousebind) globnext;
 };
 
-struct theme
-{
-     char *name;
+struct theme {
+	char *name;
 
-     /* Font */
+	/* Font */
 #ifdef HAVE_XFT
-     XftFont *font;
+	XftFont *font;
 #else
-     struct
-     {
-          int as, de, width, height;
-          XFontSet fontset;
-     } font;
+	struct {
+		int as, de, width, height;
+		XFontSet fontset;
+	} font;
 #endif /* HAVE_XFT */
 
-     /* Bars */
-     struct colpair bars;
-     int bars_width;
+	/* Bars */
+	struct colpair bars;
+	int bars_width;
 
-     /* struct elements */
-     struct colpair tags_n, tags_s, tags_o, tags_u; /* normal / selected / occupied */
-     struct status_ctx tags_n_sl, tags_s_sl, tags_o_sl, tags_u_sl; /* status line */
-     int tags_border_width;
-     BgColor tags_border_col;
+	/* struct elements */
+	struct colpair tags_n, tags_s, tags_o, tags_u; /* normal / selected / occupied */
+	struct status_ctx tags_n_sl, tags_s_sl, tags_o_sl, tags_u_sl; /* status line */
+	int tags_border_width;
+	BgColor tags_border_col;
 
-     /* client / frame */
-     struct colpair client_n, client_s;
-     struct status_ctx client_n_sl, client_s_sl, client_f_sl;
-     BgColor frame_bg;
-     int client_titlebar_width;
-     int client_border_width;
+	/* client / frame */
+	struct colpair client_n, client_s;
+	struct status_ctx client_n_sl, client_s_sl, client_f_sl;
+	BgColor frame_bg;
+	int client_titlebar_width;
+	int client_border_width;
 
-     SLIST_ENTRY(theme) next;
+	SLIST_ENTRY(theme) next;
 };
 
-struct rule
-{
-     struct theme *theme;
-     char *class;
-     char *instance;
-     char *role;
-     char *name;
-     char *client_machine;
-     int tag, screen;
+struct rule {
+	struct theme *theme;char *class;
+	char *instance;
+	char *role;
+	char *name;
+	char *client_machine;
+	int tag, screen;
 #define RULE_FREE       0x01
 #define RULE_TAB        0x02
 #define RULE_IGNORE_TAG 0x04
-     Flags flags;
-     SLIST_ENTRY(rule) next;
+	Flags flags;SLIST_ENTRY(rule) next;
 };
 
-struct launcher
-{
-     char *name;
-     char *prompt;
-     char *command;
+struct launcher {
+	char *name;
+	char *prompt;
+	char *command;
 #define HISTOLEN 64
-     char histo[HISTOLEN][256];
-     int nhisto;
-     int width;
-     SLIST_ENTRY(launcher) next;
+	char histo[HISTOLEN][256];
+	int nhisto;
+	int width;SLIST_ENTRY(launcher) next;
 };
 
-struct launcher_ccache
-{
-     char *start;
-     char **namelist;
-     size_t hits;
+struct launcher_ccache {
+	char *start;
+	char **namelist;
+	size_t hits;
 };
 
-struct _systray
-{
-     struct geo geo;
-     Window win;
-     SLIST_ENTRY(_systray) next;
+struct _systray {
+	struct geo geo;
+	Window win;SLIST_ENTRY(_systray) next;
 };
 
 #define MAX_PATH_LEN 8192
 
-struct stwm
-{
-     /* X11 stuffs */
-     Display *dpy;
-     Window root;
-     int xscreen, xdepth;
-     int xmaxw, xmaxh;
-     int nscreen;
-     unsigned int client_mod;
-     Flags numlockmask;
+struct stwm {
+	/* X11 stuffs */
+	Display *dpy;
+	Window root;
+	int xscreen, xdepth;
+	int xmaxw, xmaxh;
+	int nscreen;
+	unsigned int client_mod;
+	Flags numlockmask;
 #define stwm_SCAN      0x001
 #define stwm_RUNNING   0x002
 #define stwm_RELOAD    0x004
@@ -374,66 +322,54 @@ struct stwm
 #define stwm_TAGCIRC   0x100 /* tab_next on last tag -> go to first tag / tab_prev on first tag -> go to last tag */
 #define stwm_AUTOFOCUS 0x200
 #define stwm_IGN_ENTER 0x400
-     Flags flags;
-     GC gc, rgc;
-     Atom *net_atom;
-     char **argv;
-     char *confpath;
-     struct barwin *last_clicked_barwin;
-     struct theme *ctheme;
+	Flags flags;
+	GC gc, rgc;
+	Atom *net_atom;
+	char **argv;
+	char *confpath;
+	struct barwin *last_clicked_barwin;
+	struct theme *ctheme;
 #define CFOCUS_ENTER 0x01
 #define CFOCUS_CLICK 0x02
-     Flags cfocus; /* Focus configuration, can be set to 0, CFOCUS_ENTER or CFOCUS_CLICK*/
+	Flags cfocus; /* Focus configuration, can be set to 0, CFOCUS_ENTER or CFOCUS_CLICK*/
 
-     int padding;
+	int padding;
 
-     /* Log file */
-     FILE *log;
+	/* Log file */
+	FILE *log;
 
-     /* Lists heads */
-     struct
-     {
-          SLIST_HEAD(, screen) screen;
-          SLIST_HEAD(, client) client;
-          SLIST_HEAD(, keybind) keybind;
-          SLIST_HEAD(, barwin) barwin;
-          SLIST_HEAD(, theme) theme;
-          SLIST_HEAD(, rule) rule;
-          SLIST_HEAD(, mousebind) mousebind;
-          SLIST_HEAD(, launcher) launcher;
-          SLIST_HEAD(, barwin) vbarwin;
-     } h;
+	/* Lists heads */
+	struct {
+		SLIST_HEAD(, screen) screen;SLIST_HEAD(, client) client;SLIST_HEAD(, keybind) keybind;SLIST_HEAD(, barwin) barwin;SLIST_HEAD(, theme) theme;SLIST_HEAD(, rule) rule;SLIST_HEAD(, mousebind) mousebind;SLIST_HEAD(, launcher) launcher;SLIST_HEAD(, barwin) vbarwin;
+	} h;
 
-     /*
-      * Temporary head of mousebind list from config
-      * Will be copied in barwin of clickable drawable
-      * later in code
-      */
-     struct
-     {
-          struct mbhead tag;
-          struct mbhead client;
-          struct mbhead root;
-     } tmp_head;
+	/*
+	 * Temporary head of mousebind list from config
+	 * Will be copied in barwin of clickable drawable
+	 * later in code
+	 */
+	struct {
+		struct mbhead tag;
+		struct mbhead client;
+		struct mbhead root;
+	} tmp_head;
 
-     /*
-      * Because there is only one systray per display,
-      * set struct there
-      */
-     struct
-     {
-          struct barwin *barwin;
-          struct infobar *infobar;
-          bool redim;
-          Window win;
-          SLIST_HEAD(, _systray) head;
-     } systray;
+	/*
+	 * Because there is only one systray per display,
+	 * set struct there
+	 */
+	struct {
+		struct barwin *barwin;
+		struct infobar *infobar;
+		bool redim;
+		Window win;SLIST_HEAD(, _systray) head;
+	} systray;
 
-     /*
-      * Selected screen, client
-      */
-     struct screen *screen;
-     struct client *client;
+	/*
+	 * Selected screen, client
+	 */
+	struct screen *screen;
+	struct client *client;
 
 };
 

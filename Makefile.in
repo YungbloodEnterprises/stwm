@@ -4,6 +4,7 @@ PROG=stwm
 VERSION=$(shell scripts/setlocalversion)
 
 SRCS=                 \
+      src/aduko.c     \
       src/barwin.c    \
       src/config.c    \
       src/client.c    \

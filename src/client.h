@@ -53,7 +53,8 @@ void client_get_sizeh(struct client *c);
 bool client_winsize(struct client *c, struct geo *geo);
 
 #define client_moveresize(C, G) _client_moveresize(C, G, __func__)
-void _client_moveresize(struct client *c, struct geo *g, const char *caller_func);
+void _client_moveresize(struct client *c, struct geo *g,
+		const char *caller_func);
 
 void client_place_at_mouse(struct client *c);
 
@@ -104,126 +105,108 @@ void uicb_client_focus_next_tab(Uicb);
 void uicb_client_focus_prev_tab(Uicb);
 
 static inline struct client*
-client_next(struct client *c)
-{
-     return (SLIST_NEXT(c, tnext)
-               ? SLIST_NEXT(c, tnext)
-               : SLIST_FIRST(&c->tag->clients));
+client_next(struct client *c) {
+	return (SLIST_NEXT(c, tnext) ?
+			SLIST_NEXT(c, tnext) : SLIST_FIRST(&c->tag->clients));
 }
 
 static inline struct client*
-client_prev(struct client *c)
-{
-     struct client *cc = SLIST_FIRST(&c->tag->clients);
+client_prev(struct client *c) {
+	struct client *cc = SLIST_FIRST(&c->tag->clients);
 
-     while(SLIST_NEXT(cc, tnext) && SLIST_NEXT(cc, tnext) != c)
-          cc = SLIST_NEXT(cc, tnext);
+	while (SLIST_NEXT(cc, tnext) && SLIST_NEXT(cc, tnext) != c)
+		cc = SLIST_NEXT(cc, tnext);
 
-     return cc;
+	return cc;
 }
 
 static inline struct client*
-client_next_tab(struct client *c)
-{
-     struct client *n = client_next(c);
+client_next_tab(struct client *c) {
+	struct client *n = client_next(c);
 
-     if(!(c->flags & CLIENT_TABMASTER))
-          return NULL;
+	if (!(c->flags & CLIENT_TABMASTER))
+		return NULL;
 
-     while((!(n->flags & CLIENT_TABBED) || n->tabmaster != c) && n != c)
-          n = client_next(n);
+	while ((!(n->flags & CLIENT_TABBED) || n->tabmaster != c) && n != c)
+		n = client_next(n);
 
-     return n;
+	return n;
 }
 
 static inline struct client*
-client_prev_tab(struct client *c)
-{
-     struct client *p = client_prev(c);
+client_prev_tab(struct client *c) {
+	struct client *p = client_prev(c);
 
-     if(!(c->flags & CLIENT_TABMASTER))
-          return NULL;
+	if (!(c->flags & CLIENT_TABMASTER))
+		return NULL;
 
-     while((!(p->flags & CLIENT_TABBED) || p->tabmaster != c) && p != c)
-          p = client_prev(p);
+	while ((!(p->flags & CLIENT_TABBED) || p->tabmaster != c) && p != c)
+		p = client_prev(p);
 
-     return p;
+	return p;
 }
 
 static inline struct client*
-client_tab_next(struct client *c)
-{
-     return (c && c->tabmaster ? c->tabmaster : c);
+client_tab_next(struct client *c) {
+	return (c && c->tabmaster ? c->tabmaster : c);
 }
 
-static inline void
-client_map(struct client *c)
-{
-     if(!(c->flags & CLIENT_MAPPED))
-     {
-          WIN_STATE(c->frame, Map);
-          WIN_STATE(c->win, Map);
-          ewmh_set_wm_state(c->win, NormalState);
-          c->flags ^= CLIENT_MAPPED;
-     }
+static inline void client_map(struct client *c) {
+	if (!(c->flags & CLIENT_MAPPED)) {
+		WIN_STATE(c->frame, Map);
+		WIN_STATE(c->win, Map);
+		ewmh_set_wm_state(c->win, NormalState);
+		c->flags ^= CLIENT_MAPPED;
+	}
 }
 
-static inline void
-client_unmap(struct client *c)
-{
-     if(c->flags & CLIENT_MAPPED)
-     {
-          WIN_STATE(c->frame, Unmap);
-          WIN_STATE(c->win, Unmap);
-          ewmh_set_wm_state(c->win, IconicState);
-          c->flags ^= CLIENT_MAPPED;
-     }
+static inline void client_unmap(struct client *c) {
+	if (c->flags & CLIENT_MAPPED) {
+		WIN_STATE(c->frame, Unmap);
+		WIN_STATE(c->win, Unmap);
+		ewmh_set_wm_state(c->win, IconicState);
+		c->flags ^= CLIENT_MAPPED;
+	}
 }
 
-static inline void
-clients_arrange_map(void)
-{
-     struct client *c;
+static inline void clients_arrange_map(void) {
+	struct client *c;
 
-     SLIST_FOREACH(c, &W->h.client, next)
-     {
-          if(c->tag == c->screen->seltag && !(c->flags & CLIENT_TABBED))
-               client_map(c);
-          else
-               client_unmap(c);
-     }
+	SLIST_FOREACH(c, &W->h.client, next)
+	{
+		if (c->tag == c->screen->seltag && !(c->flags & CLIENT_TABBED))
+			client_map(c);
+		else
+			client_unmap(c);
+	}
 }
 
-static inline void
-clients_tag_arrange_map(struct tag *t)
-{
-     struct client *c;
-     void (*sfunc)(struct client*)
-          = (t == t->screen->seltag ? client_map : client_unmap);
+static inline void clients_tag_arrange_map(struct tag *t) {
+	struct client *c;
+	void (*sfunc)(struct client*)
+	= (t == t->screen->seltag ? client_map : client_unmap);
 
-     SLIST_FOREACH(c, &t->clients, tnext)
-          sfunc(c);
+	SLIST_FOREACH(c, &t->clients, tnext)
+	sfunc(c);
 }
 
 static inline struct client*
-client_get_larger(struct tag *t, bool ignoring_tag)
-{
-     struct client *c, *lc = NULL;
-     int tmp, l = 0;
+client_get_larger(struct tag *t, bool ignoring_tag) {
+	struct client *c, *lc = NULL;
+	int tmp, l = 0;
 
-     FOREACH_NFCLIENT(c, &t->clients, tnext)
-     {
-          if((tmp = (c->geo.w + c->geo.h)) > l && (c->flags & CLIENT_IGNORE_TAG) == ignoring_tag)
-          {
-               l = tmp;
-               lc = c;
-          }
-     }
+	FOREACH_NFCLIENT(c, &t->clients, tnext) {
+		if ((tmp = (c->geo.w + c->geo.h)) > l
+				&& (c->flags & CLIENT_IGNORE_TAG) == ignoring_tag) {
+			l = tmp;
+			lc = c;
+		}
+	}
 
-     if(lc && (lc->flags & CLIENT_TABBED))
-          lc = lc->tabmaster;
+	if (lc && (lc->flags & CLIENT_TABBED))
+		lc = lc->tabmaster;
 
-     return lc;
+	return lc;
 }
 
 #endif /* CLIENT_H */

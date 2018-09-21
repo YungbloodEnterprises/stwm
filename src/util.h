@@ -56,27 +56,26 @@
 /*
  * "#RRGGBB" -> 0xRRGGBB
  */
-static inline Color
-color_atoh(const char *col)
-{
-     XColor xcolor;
+static inline Color color_atoh(const char *col) {
+	XColor xcolor;
 
-     if(!XAllocNamedColor(W->dpy, DefaultColormap(W->dpy, W->xscreen), col, &xcolor, &xcolor))
-          warnl("Error: cannot allocate color \"%s\".", col);
+	if (!XAllocNamedColor(W->dpy, DefaultColormap(W->dpy, W->xscreen), col,
+			&xcolor, &xcolor))
+		warnl("Error: cannot allocate color \"%s\".", col);
 
-     return xcolor.pixel;
+	return xcolor.pixel;
 }
 
 #ifdef HAVE_XFT
 static inline XftColor
 xftcolor_atoh(const char *col)
 {
-     XftColor xcolor;
+	XftColor xcolor;
 
-     if (!XftColorAllocName(W->dpy, DefaultVisual(W->dpy, W->xscreen), DefaultColormap(W->dpy, W->xscreen), col, &xcolor))
-          warnl("Error: cannot allocate color \"%s\".", col);
+	if (!XftColorAllocName(W->dpy, DefaultVisual(W->dpy, W->xscreen), DefaultColormap(W->dpy, W->xscreen), col, &xcolor))
+	warnl("Error: cannot allocate color \"%s\".", col);
 
-     return xcolor;
+	return xcolor;
 }
 #endif /* HAVE_XFT */
 
@@ -88,34 +87,29 @@ xftcolor_atoh(const char *col)
 #define bgcolor_atoh color_atoh
 #endif /* HAVE_XFT */
 
-static inline void
-swap_ptr(void **x, void **y)
-{
-     void *t = *x;
+static inline void swap_ptr(void **x, void **y) {
+	void *t = *x;
 
-     *x = *y;
-     *y = t;
+	*x = *y;
+	*y = t;
 }
 
-static inline void
-swap_int(int *x, int *y)
-{
-     *y = *x ^ *y;
-     *x = *y ^ *x;
-     *y = *x ^ *y;
+static inline void swap_int(int *x, int *y) {
+	*y = *x ^ *y;
+	*x = *y ^ *x;
+	*y = *x ^ *y;
 }
 
-static inline enum position
-str_to_position(char *str)
-{
-     enum position i;
-     static const char index[PositionLast][8] = { "right", "left", "top", "bottom", "center" };
+static inline enum position str_to_position(char *str) {
+	enum position i;
+	static const char index[PositionLast][8] = { "right", "left", "top",
+			"bottom", "center" };
 
-     for(i = 0; i < PositionLast; ++i)
-          if(!strcmp(index[i], str))
-               return i;
+	for (i = 0; i < PositionLast; ++i)
+		if (!strcmp(index[i], str))
+			return i;
 
-     return Right;
+	return Right;
 }
 
 void *xmalloc(size_t nmemb, size_t size);

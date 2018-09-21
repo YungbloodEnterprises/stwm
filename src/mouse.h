@@ -14,18 +14,17 @@ void uicb_mouse_move(Uicb);
 void uicb_mouse_tab(Uicb);
 void uicb_mouse_integrate(Uicb);
 
-static inline bool
-mouse_check_client(struct client *c)
-{
-     Window w;
-     int d;
+static inline bool mouse_check_client(struct client *c) {
+	Window w;
+	int d;
 
-     XQueryPointer(W->dpy, W->root, &w, &w, &d, &d, &d, &d, (uint *)&d);
+	XQueryPointer(W->dpy, W->root, &w, &w, &d, &d, &d, &d, (uint *) &d);
 
-     if(c == client_gb_win(w) || c == client_gb_titlebar(w) || c == client_gb_frame(w))
-          return true;
+	if (c == client_gb_win(w) || c == client_gb_titlebar(w)
+			|| c == client_gb_frame(w))
+		return true;
 
-     return false;
+	return false;
 }
 
 #endif /* MOUSE_H */

@@ -4,7 +4,6 @@
  *  For license, see COPYING.
  */
 
-
 #ifndef DRAW_H
 #define DRAW_H
 
@@ -31,22 +30,19 @@
 static inline void
 draw_text(XftDraw *xftdraw, struct theme *t, int x, int y, FgColor fg, const char *str)
 {
-     XftDrawStringUtf8(xftdraw, &fg, t->font, x, y, (XftChar8*)str, strlen(str));
+	XftDrawStringUtf8(xftdraw, &fg, t->font, x, y, (XftChar8*)str, strlen(str));
 }
 #else
-static inline void
-draw_text(Drawable d, struct theme *t, int x, int y, FgColor fg, const char *str)
-{
-     XSetForeground(W->dpy, W->gc, fg);
-     XmbDrawString(W->dpy, d, t->font.fontset, W->gc, x, y, str, strlen(str));
+static inline void draw_text(Drawable d, struct theme *t, int x, int y,
+		FgColor fg, const char *str) {
+	XSetForeground(W->dpy, W->gc, fg);
+	XmbDrawString(W->dpy, d, t->font.fontset, W->gc, x, y, str, strlen(str));
 }
 #endif /* HAVE_XFT */
 
-static inline void
-draw_rect(Drawable d, struct geo *g, BgColor bg)
-{
-     XSetForeground(W->dpy, W->gc, bg);
-     XFillRectangle(W->dpy, d, W->gc, g->x, g->y, g->w, g->h);
+static inline void draw_rect(Drawable d, struct geo *g, BgColor bg) {
+	XSetForeground(W->dpy, W->gc, bg);
+	XFillRectangle(W->dpy, d, W->gc, g->x, g->y, g->w, g->h);
 }
 
 #ifdef HAVE_IMLIB2
@@ -58,9 +54,9 @@ draw_rect(Drawable d, struct geo *g, BgColor bg)
 static inline void
 draw_image(Drawable d, struct geo *g)
 {
-     imlib_context_set_drawable(d);
-     imlib_render_image_on_drawable_at_size(g->x, g->y, g->w, g->h);
-     imlib_free_image();
+	imlib_context_set_drawable(d);
+	imlib_render_image_on_drawable_at_size(g->x, g->y, g->w, g->h);
+	imlib_free_image();
 }
 
 /*
@@ -70,12 +66,12 @@ draw_image(Drawable d, struct geo *g)
 static inline void
 draw_image_load(char *path, int *w, int *h)
 {
-     Imlib_Image image = imlib_load_image(path);
+	Imlib_Image image = imlib_load_image(path);
 
-     imlib_context_set_image(image);
+	imlib_context_set_image(image);
 
-     *w = imlib_image_get_width();
-     *h = imlib_image_get_height();
+	*w = imlib_image_get_width();
+	*h = imlib_image_get_height();
 }
 
 #endif /* HAVE_IMLIB2 */
@@ -83,52 +79,39 @@ draw_image_load(char *path, int *w, int *h)
 /*
  * For client use
  */
-static inline void
-draw_reversed_rect(Drawable dr, struct client *c, bool t)
-{
-     struct geo *g = (t ? &c->tgeo : &c->geo);
-     struct geo *ug = &c->screen->ugeo;
-     int i = c->theme->client_border_width;
+static inline void draw_reversed_rect(Drawable dr, struct client *c, bool t) {
+	struct geo *g = (t ? &c->tgeo : &c->geo);
+	struct geo *ug = &c->screen->ugeo;
+	int i = c->theme->client_border_width;
 
-     if(c->flags & CLIENT_FREE)
-     {
-          XDrawRectangle(W->dpy, dr, W->rgc,
-                         ug->x + g->x + i,
-                         ug->y + g->y + i,
-                         g->w - (i * 2),
-                         g->h - (i * 2));
-     }
-     else
-     {
-          XDrawRectangle(W->dpy, dr, W->rgc,
-                         ug->x + g->x + i + (W->padding / 4),
-                         ug->y + g->y + i + (W->padding / 4),
-                         g->w - (i * 2) - (W->padding / 2),
-                         g->h - (i * 2) - (W->padding / 2));
-     }
+	if (c->flags & CLIENT_FREE) {
+		XDrawRectangle(W->dpy, dr, W->rgc, ug->x + g->x + i, ug->y + g->y + i,
+				g->w - (i * 2), g->h - (i * 2));
+	} else {
+		XDrawRectangle(W->dpy, dr, W->rgc, ug->x + g->x + i + (W->padding / 4),
+				ug->y + g->y + i + (W->padding / 4),
+				g->w - (i * 2) - (W->padding / 2),
+				g->h - (i * 2) - (W->padding / 2));
+	}
 }
 
-static inline void
-draw_line(Drawable d, int x1, int y1, int x2, int y2)
-{
-     XDrawLine(W->dpy, d, W->gc, x1, y1, x2, y2);
+static inline void draw_line(Drawable d, int x1, int y1, int x2, int y2) {
+	XDrawLine(W->dpy, d, W->gc, x1, y1, x2, y2);
 }
 
 #ifdef HAVE_XFT
 static inline unsigned short
 draw_textw(struct theme *t, const char *str)
 {
-     XGlyphInfo r;
-     XftTextExtentsUtf8(W->dpy, t->font, (XftChar8*) str, strlen(str), &r);
-     return r.width + t->font->descent;
+	XGlyphInfo r;
+	XftTextExtentsUtf8(W->dpy, t->font, (XftChar8*) str, strlen(str), &r);
+	return r.width + t->font->descent;
 }
 #else
-static inline unsigned short
-draw_textw(struct theme *t, const char *str)
-{
-     XRectangle r;
-     XmbTextExtents(t->font.fontset, str, strlen(str), NULL, &r);
-     return r.width;
+static inline unsigned short draw_textw(struct theme *t, const char *str) {
+	XRectangle r;
+	XmbTextExtents(t->font.fontset, str, strlen(str), NULL, &r);
+	return r.width;
 }
 #endif /* HAVE_XFT */
 

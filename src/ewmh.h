@@ -4,7 +4,6 @@
  *  For license, see COPYING.
  */
 
-
 #ifndef EWMH_H
 #define EWMH_H
 
@@ -37,86 +36,84 @@
 #define XEMBED_FOCUS_LAST    2
 
 /* Ewmh hints list */
-enum
-{
-     /* ICCCM */
-     wm_state,
-     wm_class,
-     wm_name,
-     /* EWMH */
-     net_supported,
-     net_wm_name,
-     net_client_list,
-     net_frame_extents,
-     net_number_of_desktops,
-     net_current_desktop,
-     net_desktop_names,
-     net_desktop_geometry,
-     net_active_window,
-     net_close_window,
-     net_wm_icon_name,
-     net_wm_window_type,
-     net_wm_pid,
-     net_showing_desktop,
-     net_supporting_wm_check,
-     net_wm_window_opacity,
-     net_wm_window_type_normal,
-     net_wm_window_type_desktop,
-     net_wm_window_type_dock,
-     net_wm_window_type_splash,
-     net_wm_window_type_dialog,
-     net_wm_desktop,
-     net_wm_icon,
-     net_wm_state,
-     net_wm_state_fullscreen,
-     net_wm_state_sticky,
-     net_wm_state_demands_attention,
-     net_wm_state_hidden,
-     net_system_tray_opcode,
-     net_system_tray_message_data,
-     net_system_tray_s,
-     net_system_tray_visual,
-     net_system_tray_orientation,
-     xembed,
-     xembedinfo,
-     manager,
-     utf8_string,
-     /* stwm HINTS */
-     stwm_running,
-     stwm_focus,
-     stwm_update_hints,
-     stwm_current_tag,
-     stwm_current_screen,
-     stwm_current_layout,
-     stwm_tag_list,
-     stwm_mwfact,
-     stwm_nmaster,
-     stwm_set_screen,
-     stwm_screen_count,
-     stwm_function,
-     stwm_cmd,
-     stwm_font,
-     stwm_statustext,
-     net_last
+enum {
+	/* ICCCM */
+	wm_state,
+	wm_class,
+	wm_name,
+	/* EWMH */
+	net_supported,
+	net_wm_name,
+	net_client_list,
+	net_frame_extents,
+	net_number_of_desktops,
+	net_current_desktop,
+	net_desktop_names,
+	net_desktop_geometry,
+	net_active_window,
+	net_close_window,
+	net_wm_icon_name,
+	net_wm_window_type,
+	net_wm_pid,
+	net_showing_desktop,
+	net_supporting_wm_check,
+	net_wm_window_opacity,
+	net_wm_window_type_normal,
+	net_wm_window_type_desktop,
+	net_wm_window_type_dock,
+	net_wm_window_type_splash,
+	net_wm_window_type_dialog,
+	net_wm_desktop,
+	net_wm_icon,
+	net_wm_state,
+	net_wm_state_fullscreen,
+	net_wm_state_sticky,
+	net_wm_state_demands_attention,
+	net_wm_state_hidden,
+	net_system_tray_opcode,
+	net_system_tray_message_data,
+	net_system_tray_s,
+	net_system_tray_visual,
+	net_system_tray_orientation,
+	xembed,
+	xembedinfo,
+	manager,
+	utf8_string,
+	/* stwm HINTS */
+	stwm_running,
+	stwm_focus,
+	stwm_update_hints,
+	stwm_current_tag,
+	stwm_current_screen,
+	stwm_current_layout,
+	stwm_tag_list,
+	stwm_mwfact,
+	stwm_nmaster,
+	stwm_set_screen,
+	stwm_screen_count,
+	stwm_function,
+	stwm_cmd,
+	stwm_font,
+	stwm_statustext,
+	net_last
 };
 
-static inline void
-ewmh_send_message(Window d, Window w, char *atom, long d0, long d1, long d2, long d3, long d4)
-{
-     XClientMessageEvent e;
+static inline void ewmh_send_message(Window d, Window w, char *atom, long d0,
+		long d1, long d2, long d3, long d4) {
+	XClientMessageEvent e;
 
-     e.type          = ClientMessage;
-     e.message_type  = ATOM(atom);
-     e.window        = w;
-     e.format        = 32;
-     e.data.l[0]     = d0;
-     e.data.l[1]     = d1;
-     e.data.l[2]     = d2;
-     e.data.l[3]     = d3;
-     e.data.l[4]     = d4;
+	e.type = ClientMessage;
+	e.message_type = ATOM(atom);
+	e.window = w;
+	e.format = 32;
+	e.data.l[0] = d0;
+	e.data.l[1] = d1;
+	e.data.l[2] = d2;
+	e.data.l[3] = d3;
+	e.data.l[4] = d4;
 
-     XSendEvent(W->dpy, d, false, StructureNotifyMask, (XEvent*)&e);
-     XSync(W->dpy, False);
+	XSendEvent(W->dpy, d, false, StructureNotifyMask, (XEvent*) &e);
+	XSync(W->dpy, False);
 }
 
 void ewmh_init(void);

@@ -14,366 +14,346 @@
 #define _NET_WM_STATE_ADD    1 /* add/set property */
 #define _NET_WM_STATE_TOGGLE 2 /* toggle property  */
 
-void
-ewmh_init(void)
-{
-     int b = 1;
+void ewmh_init(void) {
+	int b = 1;
 
-     W->net_atom = xcalloc(net_last, sizeof(Atom));
+	W->net_atom = xcalloc(net_last, sizeof(Atom));
 
-     /* EWMH hints */
-     W->net_atom[wm_state]                       = ATOM("WM_STATE");
-     W->net_atom[wm_class]                       = ATOM("WM_CLASS");
-     W->net_atom[wm_name]                        = ATOM("WM_NAME");
-     W->net_atom[net_supported]                  = ATOM("_NET_SUPPORTED");
-     W->net_atom[net_client_list]                = ATOM("_NET_CLIENT_LIST");
-     W->net_atom[net_frame_extents]              = ATOM("_NET_FRAME_EXTENTS");
-     W->net_atom[net_number_of_desktops]         = ATOM("_NET_NUMBER_OF_DESKTOPS");
-     W->net_atom[net_current_desktop]            = ATOM("_NET_CURRENT_DESKTOP");
-     W->net_atom[net_desktop_names]              = ATOM("_NET_DESKTOP_NAMES");
-     W->net_atom[net_desktop_geometry]           = ATOM("_NET_DESKTOP_GEOMETRY");
-     W->net_atom[net_active_window]              = ATOM("_NET_ACTIVE_WINDOW");
-     W->net_atom[net_close_window]               = ATOM("_NET_CLOSE_WINDOW");
-     W->net_atom[net_wm_name]                    = ATOM("_NET_WM_NAME");
-     W->net_atom[net_wm_pid]                     = ATOM("_NET_WM_PID");
-     W->net_atom[net_wm_desktop]                 = ATOM("_NET_WM_DESKTOP");
-     W->net_atom[net_showing_desktop]            = ATOM("_NET_SHOWING_DESKTOP");
-     W->net_atom[net_wm_icon_name]               = ATOM("_NET_WM_ICON_NAME");
-     W->net_atom[net_wm_window_type]             = ATOM("_NET_WM_WINDOW_TYPE");
-     W->net_atom[net_supporting_wm_check]        = ATOM("_NET_SUPPORTING_WM_CHECK");
-     W->net_atom[net_wm_window_opacity]          = ATOM("_NET_WM_WINDOW_OPACITY");
-     W->net_atom[net_wm_window_type_normal]      = ATOM("_NET_WM_WINDOW_TYPE_NORMAL");
-     W->net_atom[net_wm_window_type_desktop]     = ATOM("_NET_WM_WINDOW_TYPE_DESKTOP");
-     W->net_atom[net_wm_window_type_dock]        = ATOM("_NET_WM_WINDOW_TYPE_DOCK");
-     W->net_atom[net_wm_window_type_splash]      = ATOM("_NET_WM_WINDOW_TYPE_SPLASH");
-     W->net_atom[net_wm_window_type_dialog]      = ATOM("_NET_WM_WINDOW_TYPE_DIALOG");
-     W->net_atom[net_wm_icon]                    = ATOM("_NET_WM_ICON");
-     W->net_atom[net_wm_state]                   = ATOM("_NET_WM_STATE");
-     W->net_atom[net_wm_state_fullscreen]        = ATOM("_NET_WM_STATE_FULLSCREEN");
-     W->net_atom[net_wm_state_sticky]            = ATOM("_NET_WM_STATE_STICKY");
-     W->net_atom[net_wm_state_demands_attention] = ATOM("_NET_WM_STATE_DEMANDS_ATTENTION");
-     W->net_atom[net_wm_state_hidden]            = ATOM("_NET_WM_STATE_HIDDEN");
-     W->net_atom[net_system_tray_s]              = ATOM("_NET_SYSTEM_TRAY_S0");
-     W->net_atom[net_system_tray_opcode]         = ATOM("_NET_SYSTEM_TRAY_OPCODE");
-     W->net_atom[net_system_tray_message_data]   = ATOM("_NET_SYSTEM_TRAY_MESSAGE_DATA");
-     W->net_atom[net_system_tray_visual]         = ATOM("_NET_SYSTEM_TRAY_VISUAL");
-     W->net_atom[net_system_tray_orientation]    = ATOM("_NET_SYSTEM_TRAY_ORIENTATION");
-     W->net_atom[xembed]                         = ATOM("_XEMBED");
-     W->net_atom[xembedinfo]                     = ATOM("_XEMBED_INFO");
-     W->net_atom[manager]                        = ATOM("MANAGER");
-     W->net_atom[utf8_string]                    = ATOM("UTF8_STRING");
+	/* EWMH hints */
+	W->net_atom[wm_state] = ATOM("WM_STATE");
+	W->net_atom[wm_class] = ATOM("WM_CLASS");
+	W->net_atom[wm_name] = ATOM("WM_NAME");
+	W->net_atom[net_supported] = ATOM("_NET_SUPPORTED");
+	W->net_atom[net_client_list] = ATOM("_NET_CLIENT_LIST");
+	W->net_atom[net_frame_extents] = ATOM("_NET_FRAME_EXTENTS");
+	W->net_atom[net_number_of_desktops] = ATOM("_NET_NUMBER_OF_DESKTOPS");
+	W->net_atom[net_current_desktop] = ATOM("_NET_CURRENT_DESKTOP");
+	W->net_atom[net_desktop_names] = ATOM("_NET_DESKTOP_NAMES");
+	W->net_atom[net_desktop_geometry] = ATOM("_NET_DESKTOP_GEOMETRY");
+	W->net_atom[net_active_window] = ATOM("_NET_ACTIVE_WINDOW");
+	W->net_atom[net_close_window] = ATOM("_NET_CLOSE_WINDOW");
+	W->net_atom[net_wm_name] = ATOM("_NET_WM_NAME");
+	W->net_atom[net_wm_pid] = ATOM("_NET_WM_PID");
+	W->net_atom[net_wm_desktop] = ATOM("_NET_WM_DESKTOP");
+	W->net_atom[net_showing_desktop] = ATOM("_NET_SHOWING_DESKTOP");
+	W->net_atom[net_wm_icon_name] = ATOM("_NET_WM_ICON_NAME");
+	W->net_atom[net_wm_window_type] = ATOM("_NET_WM_WINDOW_TYPE");
+	W->net_atom[net_supporting_wm_check] = ATOM("_NET_SUPPORTING_WM_CHECK");
+	W->net_atom[net_wm_window_opacity] = ATOM("_NET_WM_WINDOW_OPACITY");
+	W->net_atom[net_wm_window_type_normal] = ATOM("_NET_WM_WINDOW_TYPE_NORMAL");
+	W->net_atom[net_wm_window_type_desktop] = ATOM(
+			"_NET_WM_WINDOW_TYPE_DESKTOP");
+	W->net_atom[net_wm_window_type_dock] = ATOM("_NET_WM_WINDOW_TYPE_DOCK");
+	W->net_atom[net_wm_window_type_splash] = ATOM("_NET_WM_WINDOW_TYPE_SPLASH");
+	W->net_atom[net_wm_window_type_dialog] = ATOM("_NET_WM_WINDOW_TYPE_DIALOG");
+	W->net_atom[net_wm_icon] = ATOM("_NET_WM_ICON");
+	W->net_atom[net_wm_state] = ATOM("_NET_WM_STATE");
+	W->net_atom[net_wm_state_fullscreen] = ATOM("_NET_WM_STATE_FULLSCREEN");
+	W->net_atom[net_wm_state_sticky] = ATOM("_NET_WM_STATE_STICKY");
+	W->net_atom[net_wm_state_demands_attention] = ATOM(
+			"_NET_WM_STATE_DEMANDS_ATTENTION");
+	W->net_atom[net_wm_state_hidden] = ATOM("_NET_WM_STATE_HIDDEN");
+	W->net_atom[net_system_tray_s] = ATOM("_NET_SYSTEM_TRAY_S0");
+	W->net_atom[net_system_tray_opcode] = ATOM("_NET_SYSTEM_TRAY_OPCODE");
+	W->net_atom[net_system_tray_message_data] = ATOM(
+			"_NET_SYSTEM_TRAY_MESSAGE_DATA");
+	W->net_atom[net_system_tray_visual] = ATOM("_NET_SYSTEM_TRAY_VISUAL");
+	W->net_atom[net_system_tray_orientation] = ATOM(
+			"_NET_SYSTEM_TRAY_ORIENTATION");
+	W->net_atom[xembed] = ATOM("_XEMBED");
+	W->net_atom[xembedinfo] = ATOM("_XEMBED_INFO");
+	W->net_atom[manager] = ATOM("MANAGER");
+	W->net_atom[utf8_string] = ATOM("UTF8_STRING");
 
-     /* stwm hints */
-     W->net_atom[stwm_running]                   = ATOM("_stwm_RUNNING");
-     W->net_atom[stwm_focus]                     = ATOM("_stwm_FOCUS");
-     W->net_atom[stwm_update_hints]              = ATOM("_stwm_UPDATE_HINTS");
-     W->net_atom[stwm_set_screen]                = ATOM("_stwm_SET_SCREEN");
-     W->net_atom[stwm_screen_count]              = ATOM("_stwm_SCREEN_COUNT");
-     W->net_atom[stwm_current_tag]               = ATOM("_stwm_CURRENT_TAG");
-     W->net_atom[stwm_tag_list]                  = ATOM("_stwm_TAG_LIST");
-     W->net_atom[stwm_current_screen]            = ATOM("_stwm_CURRENT_SCREEN");
-     W->net_atom[stwm_current_layout]            = ATOM("_stwm_CURRENT_LAYOUT");
-     W->net_atom[stwm_function]                  = ATOM("_stwm_FUNCTION");
-     W->net_atom[stwm_cmd]                       = ATOM("_stwm_CMD");
+	/* stwm hints */
+	W->net_atom[stwm_running] = ATOM("_stwm_RUNNING");
+	W->net_atom[stwm_focus] = ATOM("_stwm_FOCUS");
+	W->net_atom[stwm_update_hints] = ATOM("_stwm_UPDATE_HINTS");
+	W->net_atom[stwm_set_screen] = ATOM("_stwm_SET_SCREEN");
+	W->net_atom[stwm_screen_count] = ATOM("_stwm_SCREEN_COUNT");
+	W->net_atom[stwm_current_tag] = ATOM("_stwm_CURRENT_TAG");
+	W->net_atom[stwm_tag_list] = ATOM("_stwm_TAG_LIST");
+	W->net_atom[stwm_current_screen] = ATOM("_stwm_CURRENT_SCREEN");
+	W->net_atom[stwm_current_layout] = ATOM("_stwm_CURRENT_LAYOUT");
+	W->net_atom[stwm_function] = ATOM("_stwm_FUNCTION");
+	W->net_atom[stwm_cmd] = ATOM("_stwm_CMD");
 
-     XChangeProperty(W->dpy, W->root, W->net_atom[net_supported], XA_ATOM, 32,
-                     PropModeReplace, (unsigned char*)W->net_atom, net_last);
+	XChangeProperty(W->dpy, W->root, W->net_atom[net_supported], XA_ATOM, 32,
+			PropModeReplace, (unsigned char*) W->net_atom, net_last);
 
-     XChangeProperty(W->dpy, W->root, W->net_atom[stwm_running], XA_CARDINAL, 32,
-                     PropModeReplace, (unsigned char*)&b, 1);
+	XChangeProperty(W->dpy, W->root, W->net_atom[stwm_running], XA_CARDINAL, 32,
+			PropModeReplace, (unsigned char*) &b, 1);
 
-     /* Set _NET_SUPPORTING_WM_CHECK */
-     XChangeProperty(W->dpy, W->root, W->net_atom[net_supporting_wm_check], XA_WINDOW, 32,
-                     PropModeReplace, (unsigned char*)&W->root, 1);
+	/* Set _NET_SUPPORTING_WM_CHECK */
+	XChangeProperty(W->dpy, W->root, W->net_atom[net_supporting_wm_check],
+			XA_WINDOW, 32, PropModeReplace, (unsigned char*) &W->root, 1);
 
-     XChangeProperty(W->dpy, W->root, ATOM("WM_CLASS"), XA_STRING, 8,
-                     PropModeReplace, (unsigned char*)&"stwm", 4);
+	XChangeProperty(W->dpy, W->root, ATOM("WM_CLASS"), XA_STRING, 8,
+			PropModeReplace, (unsigned char*) &"stwm", 4);
 
-     XChangeProperty(W->dpy, W->root, W->net_atom[net_wm_name], W->net_atom[utf8_string], 8,
-                     PropModeReplace, (unsigned char*)&"stwm", 5);
+	XChangeProperty(W->dpy, W->root, W->net_atom[net_wm_name],
+			W->net_atom[utf8_string], 8, PropModeReplace,
+			(unsigned char*) &"stwm", 5);
 
-         /*
+	/*
 
-      * Set _NET_WM_PID
-     XChangeProperty(W->dpy, W->root, W->net_atom[net_wm_pid], XA_CARDINAL, 32,
-                     PropModeReplace, (unsigned char*)&pid, 1);
+	 * Set _NET_WM_PID
+	 XChangeProperty(W->dpy, W->root, W->net_atom[net_wm_pid], XA_CARDINAL, 32,
+	 PropModeReplace, (unsigned char*)&pid, 1);
 
-      * Set _NET_SHOWING_DESKTOP
-     XChangeProperty(W->dpy, W->root, W->net_atom[net_showing_desktop], XA_CARDINAL, 32,
-                     PropModeReplace, (unsigned char*)&showing_desk, 1);
-      */
+	 * Set _NET_SHOWING_DESKTOP
+	 XChangeProperty(W->dpy, W->root, W->net_atom[net_showing_desktop], XA_CARDINAL, 32,
+	 PropModeReplace, (unsigned char*)&showing_desk, 1);
+	 */
 
 }
 
-void
-ewmh_set_wm_state(Window w, int state)
-{
-     unsigned char d[] = { state, None };
+void ewmh_set_wm_state(Window w, int state) {
+	unsigned char d[] = { state, None };
 
-     XChangeProperty(W->dpy, w, W->net_atom[wm_state],
-                     W->net_atom[wm_state], 32, PropModeReplace, d, 2);
+	XChangeProperty(W->dpy, w, W->net_atom[wm_state], W->net_atom[wm_state], 32,
+			PropModeReplace, d, 2);
 }
 
 /*
  * _NET_CLIENT_LIST
  */
-void
-ewmh_get_client_list(void)
-{
-     Window *list;
-     struct client *c;
-     int win_n = 0;
+void ewmh_get_client_list(void) {
+	Window *list;
+	struct client *c;
+	int win_n = 0;
 
-     SLIST_FOREACH(c, &W->h.client, next)
-          ++win_n;
+	SLIST_FOREACH(c, &W->h.client, next) ++
+	win_n;
 
-     list = xcalloc(win_n, sizeof(Window));
+	list = xcalloc(win_n, sizeof(Window));
 
-     win_n = 0;
-     SLIST_FOREACH(c, &W->h.client, next)
-          list[win_n++] = c->win;
+	win_n = 0;
+	SLIST_FOREACH(c, &W->h.client, next)
+	list[win_n++] = c->win;
 
-     XChangeProperty(W->dpy, W->root, W->net_atom[net_client_list], XA_WINDOW, 32,
-                     PropModeReplace, (unsigned char *)list, win_n);
+	XChangeProperty(W->dpy, W->root, W->net_atom[net_client_list], XA_WINDOW,
+			32, PropModeReplace, (unsigned char *) list, win_n);
 
-     XFree(list);
+	XFree(list);
 }
 
 /*
  * Get xembed state
  */
-long
-ewmh_get_xembed_state(Window win)
-{
-     Atom rf;
-     int f;
-     long ret = 0;
-     unsigned long n, il;
-     unsigned char *data = NULL;
+long ewmh_get_xembed_state(Window win) {
+	Atom rf;
+	int f;
+	long ret = 0;
+	unsigned long n, il;
+	unsigned char *data = NULL;
 
-     if(XGetWindowProperty(W->dpy, win, W->net_atom[xembedinfo], 0L, 2, False,
-                           W->net_atom[xembedinfo], &rf, &f, &n, &il, &data) != Success)
-          return 0;
+	if (XGetWindowProperty(W->dpy, win, W->net_atom[xembedinfo], 0L, 2, False,
+			W->net_atom[xembedinfo], &rf, &f, &n, &il, &data) != Success)
+		return 0;
 
-     if(rf == W->net_atom[xembedinfo] && n == 2)
-          ret = (long)data[1];
+	if (rf == W->net_atom[xembedinfo] && n == 2)
+		ret = (long) data[1];
 
-     if(n && data)
-          XFree(data);
+	if (n && data)
+		XFree(data);
 
-     return ret;
+	return ret;
 }
 
-void
-ewmh_update_stwm_props(void)
-{
-     struct screen *s;
-     int i, ns = 0;
-     long *cts = NULL;
+void ewmh_update_stwm_props(void) {
+	struct screen *s;
+	int i, ns = 0;
+	long *cts = NULL;
 
-     SLIST_FOREACH(s, &W->h.screen, next)
-          ++ns;
+	SLIST_FOREACH(s, &W->h.screen, next) ++
+	ns;
 
-     cts = xcalloc(ns, sizeof(long));
+	cts = xcalloc(ns, sizeof(long));
 
-     for(i = 0; i < ns; ++i)
-     {
-          s = screen_gb_id(i);
-          cts[i] = (s->seltag ? s->seltag->id : 0);
-     }
+	for (i = 0; i < ns; ++i) {
+		s = screen_gb_id(i);
+		cts[i] = (s->seltag ? s->seltag->id : 0);
+	}
 
-     XChangeProperty(W->dpy, W->root, W->net_atom[stwm_current_tag], XA_CARDINAL, 32,
-                     PropModeReplace, (unsigned char*)cts, ns);
+	XChangeProperty(W->dpy, W->root, W->net_atom[stwm_current_tag], XA_CARDINAL,
+			32, PropModeReplace, (unsigned char*) cts, ns);
 
-     if(W->client)
-          XChangeProperty(W->dpy, W->root, W->net_atom[stwm_focus], XA_WINDOW, 32,
-                          PropModeReplace, (unsigned char*)&W->client->win, 1);
+	if (W->client)
+		XChangeProperty(W->dpy, W->root, W->net_atom[stwm_focus], XA_WINDOW, 32,
+				PropModeReplace, (unsigned char*) &W->client->win, 1);
 
-     free(cts);
+	free(cts);
 }
 
-void
-ewmh_manage_state(long data[], struct client *c)
-{
-     /* _NET_WM_STATE_FULLSCREEN */
-     if(data[1] == (long)W->net_atom[net_wm_state_fullscreen]
-        || data[2] == (long)W->net_atom[net_wm_state_fullscreen])
-     {
-          if(data[0] == _NET_WM_STATE_ADD
-             || (data[0] == _NET_WM_STATE_TOGGLE && !(c->flags & CLIENT_FULLSCREEN)))
-          {
-               c->flags |= CLIENT_FULLSCREEN;
+void ewmh_manage_state(long data[], struct client *c) {
+	/* _NET_WM_STATE_FULLSCREEN */
+	if (data[1] == (long) W->net_atom[net_wm_state_fullscreen]
+			|| data[2] == (long) W->net_atom[net_wm_state_fullscreen]) {
+		if (data[0] == _NET_WM_STATE_ADD
+				|| (data[0] == _NET_WM_STATE_TOGGLE
+						&& !(c->flags & CLIENT_FULLSCREEN))) {
+			c->flags |= CLIENT_FULLSCREEN;
 
-               XChangeProperty(W->dpy, c->win, W->net_atom[net_wm_state], XA_ATOM, 32, PropModeReplace,
-                               (unsigned char*)&W->net_atom[net_wm_state_fullscreen], 1);
-               XReparentWindow(W->dpy, c->win, W->root, c->screen->geo.x, c->screen->geo.y);
-               XResizeWindow(W->dpy, c->win, c->screen->geo.w, c->screen->geo.h);
+			XChangeProperty(W->dpy, c->win, W->net_atom[net_wm_state], XA_ATOM,
+					32, PropModeReplace,
+					(unsigned char*) &W->net_atom[net_wm_state_fullscreen], 1);
+			XReparentWindow(W->dpy, c->win, W->root, c->screen->geo.x,
+					c->screen->geo.y);
+			XResizeWindow(W->dpy, c->win, c->screen->geo.w, c->screen->geo.h);
 
-               if(c->tag)
-                    client_focus(c);
+			if (c->tag)
+				client_focus(c);
 
-               XRaiseWindow(W->dpy, c->win);
-          }
-          else
-          {
-               c->flags &= ~CLIENT_FULLSCREEN;
+			XRaiseWindow(W->dpy, c->win);
+		} else {
+			c->flags &= ~CLIENT_FULLSCREEN;
 
-               XChangeProperty(W->dpy, c->win, W->net_atom[net_wm_state], XA_ATOM, 32, PropModeReplace,
-                               (unsigned char*)0, 0);
-               XReparentWindow(W->dpy, c->win, c->frame, c->wgeo.x, c->wgeo.y);
+			XChangeProperty(W->dpy, c->win, W->net_atom[net_wm_state], XA_ATOM,
+					32, PropModeReplace, (unsigned char*) 0, 0);
+			XReparentWindow(W->dpy, c->win, c->frame, c->wgeo.x, c->wgeo.y);
 
-               if(c->flags & CLIENT_FREE)
-                    client_moveresize(c, &c->geo);
-               else
-                    layout_fix_hole(c);
-          }
-     }
+			if (c->flags & CLIENT_FREE)
+				client_moveresize(c, &c->geo);
+			else
+				layout_fix_hole(c);
+		}
+	}
 
 }
 
-bool
-ewmh_manage_state_sticky(Window win)
-{
-     Atom *atom, rf;
-     int f;
-     unsigned long n, il, i;
-     unsigned char *data = NULL;
-     bool is_sticky = false;
+bool ewmh_manage_state_sticky(Window win) {
+	Atom *atom, rf;
+	int f;
+	unsigned long n, il, i;
+	unsigned char *data = NULL;
+	bool is_sticky = false;
 
-     if(XGetWindowProperty(W->dpy, win, W->net_atom[net_wm_state], 0L, 0x7FFFFFFFL, false,
-                           XA_ATOM, &rf, &f, &n, &il, &data) == Success && n)
-     {
-          atom = (Atom*)data;
+	if (XGetWindowProperty(W->dpy, win, W->net_atom[net_wm_state], 0L,
+			0x7FFFFFFFL, false, XA_ATOM, &rf, &f, &n, &il, &data) == Success
+			&& n) {
+		atom = (Atom*) data;
 
-          for(i = 0; i < n; ++i)
-          {
-               /* manage _NET_WM_STATE_STICKY */
-               if(atom[i] == W->net_atom[net_wm_state_sticky])
-               {
-                    XWindowAttributes at;
+		for (i = 0; i < n; ++i) {
+			/* manage _NET_WM_STATE_STICKY */
+			if (atom[i] == W->net_atom[net_wm_state_sticky]) {
+				XWindowAttributes at;
 
-                    XMapWindow(W->dpy, win);
-                    XMapSubwindows(W->dpy, win);
+				XMapWindow(W->dpy, win);
+				XMapSubwindows(W->dpy, win);
 
-                    if(XGetWindowAttributes(W->dpy, win, &at))
-                    {
-                         struct geo g;
+				if (XGetWindowAttributes(W->dpy, win, &at)) {
+					struct geo g;
 
-                         if(at.x < W->screen->ugeo.x)
-                              g.x = W->screen->ugeo.x;
-                         else if((at.x + at.width) > W->screen->ugeo.w)
-                              g.x = W->screen->ugeo.w - at.width;
-                         else
-                              g.x = at.x;
+					if (at.x < W->screen->ugeo.x)
+						g.x = W->screen->ugeo.x;
+					else if ((at.x + at.width) > W->screen->ugeo.w)
+						g.x = W->screen->ugeo.w - at.width;
+					else
+						g.x = at.x;
 
-                         if(at.y < W->screen->ugeo.y)
-                              g.y = W->screen->ugeo.y;
-                         else if((at.y + at.height) > W->screen->ugeo.h)
-                              g.y = W->screen->ugeo.h - at.height;
-                         else
-                              g.y = at.y;
+					if (at.y < W->screen->ugeo.y)
+						g.y = W->screen->ugeo.y;
+					else if ((at.y + at.height) > W->screen->ugeo.h)
+						g.y = W->screen->ugeo.h - at.height;
+					else
+						g.y = at.y;
 
-                         XMoveWindow(W->dpy, win, g.x, g.y);
-                    }
+					XMoveWindow(W->dpy, win, g.x, g.y);
+				}
 
-                    if(W->client)
-                    {
-                         XUngrabButton(W->dpy, AnyButton, AnyModifier, W->client->win);
-                         XGrabButton(W->dpy, AnyButton, AnyModifier, W->client->win, False,
-                                   ButtonMask, GrabModeAsync, GrabModeSync, None, None);
+				if (W->client) {
+					XUngrabButton(W->dpy, AnyButton, AnyModifier,
+							W->client->win);
+					XGrabButton(W->dpy, AnyButton, AnyModifier, W->client->win,
+							False,
+							ButtonMask, GrabModeAsync, GrabModeSync, None,
+							None);
 
-                         client_frame_update(W->client, &W->client->ncol);
+					client_frame_update(W->client, &W->client->ncol);
 
-                         W->client = NULL;
-                    }
+					W->client = NULL;
+				}
 
+				XRaiseWindow(W->dpy, win);
 
-                    XRaiseWindow(W->dpy, win);
+				XSetInputFocus(W->dpy, win, RevertToPointerRoot, CurrentTime);
+				XChangeProperty(W->dpy, W->root, W->net_atom[net_active_window],
+						XA_WINDOW, 32, PropModeReplace, (unsigned char *) &win,
+						1);
 
-                    XSetInputFocus(W->dpy, win, RevertToPointerRoot, CurrentTime);
-                    XChangeProperty(W->dpy, W->root, W->net_atom[net_active_window], XA_WINDOW, 32,
-                                    PropModeReplace, (unsigned char *)&win, 1);
+				is_sticky = true;
+				break;
+			}
+		}
 
-                    is_sticky = true;
-                    break;
-               }
-          }
+		XFree(data);
+	}
 
-          XFree(data);
-     }
-
-     return is_sticky;
+	return is_sticky;
 }
 
-void
-ewmh_manage_window_type(struct client *c)
-{
-     Atom *atom, rf;
-     int f;
-     unsigned long n, il, i;
-     unsigned char *data = NULL;
-     long ldata[5] = { _NET_WM_STATE_ADD };
+void ewmh_manage_window_type(struct client *c) {
+	Atom *atom, rf;
+	int f;
+	unsigned long n, il, i;
+	unsigned char *data = NULL;
+	long ldata[5] = { _NET_WM_STATE_ADD };
 
-     if(XGetWindowProperty(W->dpy, c->win, W->net_atom[net_wm_window_type], 0L, 0x7FFFFFFFL,
-                           False, XA_ATOM, &rf, &f, &n, &il, &data) == Success && n)
-     {
-          atom = (Atom*)data;
+	if (XGetWindowProperty(W->dpy, c->win, W->net_atom[net_wm_window_type], 0L,
+			0x7FFFFFFFL, False, XA_ATOM, &rf, &f, &n, &il, &data) == Success
+			&& n) {
+		atom = (Atom*) data;
 
-          for(i = 0; i < n; ++i)
-          {
-               /* MANAGE _NET_WM_WINDOW_TYPE_DIALOG */
-               if(atom[i] == W->net_atom[net_wm_window_type_dialog])
-                    c->flags |= CLIENT_FREE;
-          }
-          XFree(data);
-     }
+		for (i = 0; i < n; ++i) {
+			/* MANAGE _NET_WM_WINDOW_TYPE_DIALOG */
+			if (atom[i] == W->net_atom[net_wm_window_type_dialog])
+				c->flags |= CLIENT_FREE;
+		}
+		XFree(data);
+	}
 
-     /* _NET_WM_STATE at window mangement */
-     if(XGetWindowProperty(W->dpy, c->win, W->net_atom[net_wm_state], 0L, 0x7FFFFFFFL, false,
-                           XA_ATOM, &rf, &f, &n, &il, &data) == Success && n)
-     {
-          atom = (Atom*)data;
+	/* _NET_WM_STATE at window mangement */
+	if (XGetWindowProperty(W->dpy, c->win, W->net_atom[net_wm_state], 0L,
+			0x7FFFFFFFL, false, XA_ATOM, &rf, &f, &n, &il, &data) == Success
+			&& n) {
+		atom = (Atom*) data;
 
-          for(i = 0; i < n; ++i)
-          {
-               ldata[1] = atom[i];
-               ewmh_manage_state(ldata, c);
-          }
+		for (i = 0; i < n; ++i) {
+			ldata[1] = atom[i];
+			ewmh_manage_state(ldata, c);
+		}
 
-          XFree(data);
-     }
+		XFree(data);
+	}
 }
 
-bool
-ewmh_manage_window_type_desktop(Window win)
-{
-     Atom *atom, rf;
-     int f;
-     unsigned long n, il, i;
-     unsigned char *data = NULL;
-     bool is_desktop = false;
+bool ewmh_manage_window_type_desktop(Window win) {
+	Atom *atom, rf;
+	int f;
+	unsigned long n, il, i;
+	unsigned char *data = NULL;
+	bool is_desktop = false;
 
-     if(XGetWindowProperty(W->dpy, win, W->net_atom[net_wm_window_type], 0L, 0x7FFFFFFF,
-                           False, XA_ATOM, &rf, &f, &n, &il, &data) == Success && n)
-     {
-          atom = (Atom*)data;
+	if (XGetWindowProperty(W->dpy, win, W->net_atom[net_wm_window_type], 0L,
+			0x7FFFFFFF, False, XA_ATOM, &rf, &f, &n, &il, &data) == Success
+			&& n) {
+		atom = (Atom*) data;
 
-          for(i = 0; i < n; ++i)
-          {
-               /* If it is a _NET_WM_WINDOW_TYPE_DESKTOP window */
-               if(atom[i] == W->net_atom[net_wm_window_type_desktop])
-               {
-                    /* map it, but don't manage it */
-                    XMapWindow(W->dpy, win);
-                    XMapSubwindows(W->dpy, win);
+		for (i = 0; i < n; ++i) {
+			/* If it is a _NET_WM_WINDOW_TYPE_DESKTOP window */
+			if (atom[i] == W->net_atom[net_wm_window_type_desktop]) {
+				/* map it, but don't manage it */
+				XMapWindow(W->dpy, win);
+				XMapSubwindows(W->dpy, win);
 
-                    is_desktop = true;
-                    break;
-               }
-          }
+				is_desktop = true;
+				break;
+			}
+		}
 
-          XFree(data);
-     }
+		XFree(data);
+	}
 
-     return is_desktop;
+	return is_desktop;
 }

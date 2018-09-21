@@ -26,7 +26,6 @@
       ? (p == Left ? ((g1).x == (g2).x) : ((g1).x + (g1).w == (g2).x + (g2).w)) \
       : (p == Top  ? ((g1).y == (g2).y) : ((g1).y + (g1).h == (g2).y + (g2).h)))
 
-
 /* Debug */
 #define DGEO(G) printf(": %d %d %d %d\n", G.x, G.y, G.w, G.h)
 
@@ -49,6 +48,5 @@ void uicb_layout_integrate_Left(Uicb);
 void uicb_layout_integrate_Right(Uicb);
 void uicb_layout_integrate_Top(Uicb);
 void uicb_layout_integrate_Bottom(Uicb);
-
 
 #endif /* LAYOUT_H */

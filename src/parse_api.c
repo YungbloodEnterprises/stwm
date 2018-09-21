@@ -27,189 +27,160 @@
 #include "parse.h"
 #include "util.h"
 
-extern TAILQ_HEAD(, conf_sec) config;
+extern TAILQ_HEAD(, conf_sec)
+config;
 
 static const struct opt_type opt_type_null = { 0, 0, false, NULL };
 
-static struct opt_type
-string_to_opt(char *s)
-{
-     struct opt_type ret = opt_type_null;
+static struct opt_type string_to_opt(char *s) {
+	struct opt_type ret = opt_type_null;
 
-     if(!s || !strlen(s))
-          return ret;
+	if (!s || !strlen(s))
+		return ret;
 
-     ret.num = strtol(s, (char**)NULL, 10);
-     ret.fnum = strtod(s, NULL);
+	ret.num = strtol(s, (char**) NULL, 10);
+	ret.fnum = strtod(s, NULL);
 
-     ret.boolean = (!strcmp(s, "true")
-                   || !strcmp(s, "True")
-                   || !strcmp(s, "TRUE")
-                   || !strcmp(s, "1"));
+	ret.boolean = (!strcmp(s, "true") || !strcmp(s, "True")
+			|| !strcmp(s, "TRUE") || !strcmp(s, "1"));
 
-     ret.str = s;
+	ret.str = s;
 
-     return ret;
+	return ret;
 }
 
+void print_unused(struct conf_sec *sec) {
+	struct conf_sec *s;
+	struct conf_opt *o;
 
-void
-print_unused(struct conf_sec *sec)
-{
-     struct conf_sec *s;
-     struct conf_opt *o;
+	if (!sec) {
+		TAILQ_FOREACH(s, &config, entry)
+		print_unused(s);
+		return;
+	}
 
-     if(!sec)
-     {
-          TAILQ_FOREACH(s, &config, entry)
-               print_unused(s);
-          return;
-     }
+	SLIST_FOREACH(o, &sec->optlist, entry)
+	if (!o->used)
+		warnxl("%s:%d, unused param %s", o->filename, o->line, o->name);
 
-     SLIST_FOREACH(o, &sec->optlist, entry)
-          if(!o->used)
-               warnxl("%s:%d, unused param %s", o->filename, o->line, o->name);
-
-     TAILQ_FOREACH(s, &sec->sub, entry)
-          if(!TAILQ_EMPTY(&s->sub))
-               print_unused(s);
+	TAILQ_FOREACH(s, &sec->sub, entry)
+	if (!TAILQ_EMPTY(&s->sub))
+		print_unused(s);
 }
 
 struct conf_sec **
-fetch_section(struct conf_sec *s, char *name)
-{
-     struct conf_sec **ret;
-     struct conf_sec *sec;
-     size_t i = 0;
+fetch_section(struct conf_sec *s, char *name) {
+	struct conf_sec **ret;
+	struct conf_sec *sec;
+	size_t i = 0;
 
-     if(!name)
-          return NULL;
+	if (!name)
+		return NULL;
 
-     if(!s)
-     {
-          ret = xcalloc(2, sizeof(struct conf_sec *));
+	if (!s) {
+		ret = xcalloc(2, sizeof(struct conf_sec *));
 
-          TAILQ_FOREACH(sec, &config, entry)
-               if(!strcmp(sec->name, name))
-               {
-                    ret[0] = sec;
-                    ret[1] = NULL;
-                    break;
-               }
-     }
-     else
-     {
-          ret = xcalloc(s->nsub + 1, sizeof(struct conf_sec *));
+		TAILQ_FOREACH(sec, &config, entry)
+		if (!strcmp(sec->name, name)) {
+			ret[0] = sec;
+			ret[1] = NULL;
+			break;
+		}
+	} else {
+		ret = xcalloc(s->nsub + 1, sizeof(struct conf_sec *));
 
-          TAILQ_FOREACH(sec, &s->sub, entry)
-               if(!strcmp(sec->name, name) && i < s->nsub)
-                    ret[i++] = sec;
+		TAILQ_FOREACH(sec, &s->sub, entry)
+		if (!strcmp(sec->name, name) && i < s->nsub)
+			ret[i++] = sec;
 
-          ret[i] = NULL;
-     }
+		ret[i] = NULL;
+	}
 
-     return ret;
+	return ret;
 }
 
 struct conf_sec *
-fetch_section_first(struct conf_sec *s, char *name)
-{
-     struct conf_sec *sec, *ret = NULL;
-     TAILQ_HEAD(cshead, conf_sec) *head =
-          (s
-           ? (struct cshead*)&s->sub
-           : (struct cshead*)&config);
+fetch_section_first(struct conf_sec *s, char *name) {
+	struct conf_sec *sec, *ret = NULL;
+	TAILQ_HEAD(cshead, conf_sec) * head = (
+			s ? (struct cshead*) &s->sub : (struct cshead*) &config);
 
-     if(!name)
-          return NULL;
+	if (!name)
+		return NULL;
 
-     TAILQ_FOREACH(sec, head, entry)
-          if(sec->name && !strcmp(sec->name, name))
-          {
-               ret = sec;
-               break;
-          }
+	TAILQ_FOREACH(sec, head, entry)
+	if (sec->name && !strcmp(sec->name, name)) {
+		ret = sec;
+		break;
+	}
 
-     return ret;
+	return ret;
 }
 
-size_t
-fetch_section_count(struct conf_sec **s)
-{
-     size_t ret = 0;
+size_t fetch_section_count(struct conf_sec **s) {
+	size_t ret = 0;
 
-     while(s[ret])
-          ++ret;
+	while (s[ret])
+		++ret;
 
-     return ret;
+	return ret;
 }
 
 struct opt_type *
-fetch_opt(struct conf_sec *s, char *dfl, char *name)
-{
-     struct conf_opt *o;
-     struct opt_type *ret;
-     size_t i = 0;
+fetch_opt(struct conf_sec *s, char *dfl, char *name) {
+	struct conf_opt *o;
+	struct opt_type *ret;
+	size_t i = 0;
 
-     if(!name)
-          return NULL;
+	if (!name)
+		return NULL;
 
-     ret = xcalloc(10, sizeof(struct opt_type));
+	ret = xcalloc(10, sizeof(struct opt_type));
 
-     if(s)
-     {
-          SLIST_FOREACH(o, &s->optlist, entry)
-               if(!strcmp(o->name, name))
-               {
-                    while(o->val[i])
-                    {
-                         o->used = true;
-                         ret[i] = string_to_opt(o->val[i]);
-                         ++i;
-                    }
+	if (s) {
+		SLIST_FOREACH(o, &s->optlist, entry)
+		if (!strcmp(o->name, name)) {
+			while (o->val[i]) {
+				o->used = true;
+				ret[i] = string_to_opt(o->val[i]);
+				++i;
+			}
 
-                    ret[i] = opt_type_null;
+			ret[i] = opt_type_null;
 
-                    return ret;
-               }
-     }
+			return ret;
+		}
+	}
 
-     ret[0] = string_to_opt(dfl);
-     ret[1] = opt_type_null;
+	ret[0] = string_to_opt(dfl);
+	ret[1] = opt_type_null;
 
-     return ret;
+	return ret;
 }
 
-struct opt_type
-fetch_opt_first(struct conf_sec *s, char *dfl, char *name)
-{
-     struct conf_opt *o;
+struct opt_type fetch_opt_first(struct conf_sec *s, char *dfl, char *name) {
+	struct conf_opt *o;
 
-     if(!name)
-          return opt_type_null;
-     else if(s)
-     {
-          SLIST_FOREACH(o, &s->optlist, entry)
-               if(!strcmp(o->name, name))
-               {
-                    o->used = true;
+	if (!name)
+		return opt_type_null;
+	else if (s) {
+		SLIST_FOREACH(o, &s->optlist, entry)
+		if (!strcmp(o->name, name)) {
+			o->used = true;
 
-                    return string_to_opt(o->val[0]);
-               }
-     }
+			return string_to_opt(o->val[0]);
+		}
+	}
 
-     return string_to_opt(dfl);
+	return string_to_opt(dfl);
 }
 
-size_t
-fetch_opt_count(struct opt_type *o)
-{
-     size_t ret = 0;
+size_t fetch_opt_count(struct opt_type *o) {
+	size_t ret = 0;
 
-     while(o[ret].str)
-          ++ret;
+	while (o[ret].str)
+		++ret;
 
-     return ret;
+	return ret;
 }
-
 

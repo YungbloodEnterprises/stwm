@@ -436,32 +436,22 @@ void infobar_refresh(struct infobar *i) {
 	barwin_refresh(i->bar);
 
 	XSetForeground(W->dpy, W->gc, strtol("0x0000ff", 0, 16));
-	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width, 324);
-	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, i->screen->ugeo.w, height);
-	XFillRectangle(W->dpy, W->root, W->gc, i->screen->ugeo.w - width, 0, width,
-			325);
-	XFillRectangle(W->dpy, W->root, W->gc, 0, 300, i->screen->ugeo.w, height);
+	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width, 325);
+	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, 600, height);
+	XFillRectangle(W->dpy, W->root, W->gc, i->screen->ugeo.w - width, 0, width, 325);
+	XFillRectangle(W->dpy, W->root, W->gc, i->screen->ugeo.w-600, 300, 600, height);
 
-	aduko_main_tl(W->dpy, W->root, W->gc, 0, 0, width, height,
-			strtol("0x0000ff", 0, 16), 0);
-	aduko_main_tr(W->dpy, W->root, W->gc, i->screen->ugeo.w - (width * 1.35), 0,
-			width, height, strtol("0x0000ff", 0, 16), 0);
-	aduko_main_bl(W->dpy, W->root, W->gc, 0, 300 - height, width, height,
-			strtol("0x0000ff", 0, 16), 0);
-	aduko_main_br(W->dpy, W->root, W->gc, i->screen->ugeo.w - (width * 1.35),
-			300 - height, width, height, strtol("0x0000ff", 0, 16), 0);
+	aduko_main_tl(W->dpy, W->root, W->gc, 0, 0, width, height, strtol("0x0000ff", 0, 16), 0);
+	aduko_main_br(W->dpy, W->root, W->gc, i->screen->ugeo.w - (width * 1.35), 300 - height, width, height, strtol("0x0000ff", 0, 16), 0);
+	aduko_main_top(W->dpy, W->root, W->gc, i->screen->ugeo.w - width, 0, width, height, strtol("0x0000ff", 0, 16), 0);
 
 	XSetForeground(W->dpy, W->gc, strtol("0x000000", 0, 16));
-	XFillRectangle(W->dpy, W->root, W->gc, 0, height * 3 - 5, i->screen->ugeo.w,
-			5);
-	XFillRectangle(W->dpy, W->root, W->gc, 0, height * 5 + 1, i->screen->ugeo.w,
-			5);
+	XFillRectangle(W->dpy, W->root, W->gc, 0, height * 3 - 5, i->screen->ugeo.w, 5);
+	XFillRectangle(W->dpy, W->root, W->gc, 0, height * 5 + 1, i->screen->ugeo.w, 5);
 
 	XSetForeground(W->dpy, W->gc, strtol("0xff0000", 0, 16));
-	XFillArc(W->dpy, W->root, W->gc, width, height * 3, height * 2, height * 2,
-			270 * 64, 180 * 64);
-	XFillRectangle(W->dpy, W->root, W->gc, width + 5, height * 3, height - 5,
-			height * 2 + 1);
+	XFillArc(W->dpy, W->root, W->gc, width, height * 3, height * 2, height * 2, 270 * 64, 180 * 64);
+	XFillRectangle(W->dpy, W->root, W->gc, width + 5, height * 3, height - 5, height * 2 + 1);
 }
 
 void infobar_remove(struct infobar *i) {

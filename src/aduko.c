@@ -63,3 +63,16 @@ void aduko_main_br(Display *display, Drawable d, GC gc, int x, int y,
 	XFillArc(display, d, gc, x - (width * .05), y - (height * 2), width * 1.4,
 			height * 4, 270 * 64, 90 * 64);
 }
+
+void aduko_main_top(Display *display, Drawable d, GC gc, int x, int y,
+		unsigned int width, unsigned int height, unsigned long fg,
+		unsigned long bg) {
+	int rad = min(width, height);
+
+	XSetForeground(display, gc, bg);
+	XFillRectangle(display, d, gc, x, y, rad, rad);
+	XFillRectangle(display, d, gc, x+width-rad, y, rad, rad);
+	XSetForeground(display, gc, fg);
+	XFillArc(display, d, gc, x, y, rad*2, rad * 2, 0 * 64, 180 * 64);
+	XFillArc(display, d, gc, x+width-(rad*2), y, rad*2, rad * 2, 270 * 64, 180 * 64);
+}

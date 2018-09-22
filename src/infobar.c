@@ -430,6 +430,10 @@ infobar_new(struct screen *s, char *name, struct theme *theme, enum barpos pos,
 void infobar_refresh(struct infobar *i) {
 	int width = 150;
 	int height = 25;
+	int gap = 3;
+
+	unsigned long fg, bg = 0;
+	fg = strtol("0x0000ff", 0, 16);
 
 	infobar_elem_update(i, -1);
 
@@ -439,17 +443,16 @@ void infobar_refresh(struct infobar *i) {
 	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width, i->screen->ugeo.h);
 	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, i->screen->ugeo.w, height);
 
-	aduko_main_tl(W->dpy, W->root, W->gc, 0, 0, width, height, strtol("0x0000ff", 0, 16), 0);
-	aduko_main_bottom(W->dpy, W->root, W->gc, 0, i->screen->ugeo.h, width, height, strtol("0x0000ff", 0, 16), 0);
-	aduko_main_right(W->dpy, W->root, W->gc, i->screen->ugeo.w-(height/2), 0, width, height, strtol("0x0000ff", 0, 16), 0);
+	aduko_main_tl(W->dpy, W->root, W->gc, 0, 0, width, height, fg, gb);
+	aduko_main_bottom(W->dpy, W->root, W->gc, 0, i->screen->ugeo.h, width, height, fg, bg);
+	aduko_main_right(W->dpy, W->root, W->gc, i->screen->ugeo.w-(height/2), 0, width, height, fg, bg);
 
-	XSetForeground(W->dpy, W->gc, strtol("0x000000", 0, 16));
-	XFillRectangle(W->dpy, W->root, W->gc, 0, height * 3 - 5, i->screen->ugeo.w, 5);
-	XFillRectangle(W->dpy, W->root, W->gc, 0, height * 5 + 1, i->screen->ugeo.w, 5);
-
-	XSetForeground(W->dpy, W->gc, strtol("0xff0000", 0, 16));
-	XFillArc(W->dpy, W->root, W->gc, width, height * 3, height * 2, height * 2, 270 * 64, 180 * 64);
-	XFillRectangle(W->dpy, W->root, W->gc, width + 5, height * 3, height - 5, height * 2 + 1);
+	aduko_main_item_left(W->dpy, W->root, W->gc, 0,
+			aduko_item2y(0, height, gap), width, height, gap, fg, bg);
+	aduko_main_item_highlight_left(W->dpy, W->root, W->gc, 0,
+			aduko_item2y(1, height, gap), width, height, gap, fg, bg);
+	aduko_main_item_select_left(W->dpy, W->root, W->gc, 0,
+			aduko_item2y(2, height, gap), width, height, gap, fg, bg);
 }
 
 void infobar_remove(struct infobar *i) {

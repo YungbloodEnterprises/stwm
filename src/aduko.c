@@ -123,3 +123,73 @@ void aduko_main_right(Display *display, Drawable d, GC gc, int x, int y,
 	XFillArc(display, d, gc, x-rad, y, rad*2, rad * 2, 0 * 64, 90 * 64);
 	XFillArc(display, d, gc, x-rad, y+height-(rad*2), rad*2, rad * 2, 270 * 64, 90 * 64);
 }
+
+void aduko_main_item_left(Display *display, Drawable d, GC gc, int x, int y,
+		unsigned int width, unsigned int height, unsigned int gap, unsigned long fg,
+		unsigned long bg) {
+
+	XSetForeground(display, gc, bg);
+	XFillRectangle(display, d, gc, x, y, width+(height*2), (gap*2)+1+(height*2));
+	XSetForeground(display, gc, fg);
+	XFillRectangle(display, d, gc, x, y+gap, width, (height*2)+1);
+}
+
+void aduko_main_item_right(Display *display, Drawable d, GC gc, int x, int y,
+		unsigned int width, unsigned int height, unsigned int gap, unsigned long fg,
+		unsigned long bg) {
+
+	XSetForeground(display, gc, bg);
+	XFillRectangle(display, d, gc, x, y, width+(height*2), (gap*2)+1+(height*2));
+	XSetForeground(display, gc, fg);
+	XFillRectangle(display, d, gc, x+(height*2), y+gap, width, (height*2)+1);
+}
+
+void aduko_main_item_select_left(Display *display, Drawable d, GC gc, int x, int y,
+		unsigned int width, unsigned int height, unsigned int gap, unsigned long fg,
+		unsigned long bg) {
+
+	XSetForeground(display, gc, bg);
+	XFillRectangle(display, d, gc, x, y, width+(height*2), (gap*2)+1+(height*2));
+	XSetForeground(display, gc, fg);
+	XFillRectangle(display, d, gc, x, y+gap, width+(height*2), (height*2)+1);
+}
+
+void aduko_main_item_select_right(Display *display, Drawable d, GC gc, int x, int y,
+		unsigned int width, unsigned int height, unsigned int gap, unsigned long fg,
+		unsigned long bg) {
+
+	XSetForeground(display, gc, bg);
+	XFillRectangle(display, d, gc, x, y, width+(height*2), (gap*2)+1+(height*2));
+	XSetForeground(display, gc, fg);
+	XFillRectangle(display, d, gc, x, y+gap, width+(height*2), (height*2)+1);
+}
+
+void aduko_main_item_highlight_left(Display *display, Drawable d, GC gc, int x, int y,
+		unsigned int width, unsigned int height, unsigned int gap, unsigned long fg,
+		unsigned long bg) {
+
+	XSetForeground(display, gc, bg);
+	XFillRectangle(display, d, gc, x, y, width+(height*2), (gap*2)+1+(height*2));
+	XSetForeground(display, gc, fg);
+	XFillRectangle(display, d, gc, x, y+gap, width, (height*2)+1);
+	XFillRectangle(display, d, gc, x+width+gap, y+gap, height-gap, (height*2)+1);
+	XFillArc(display, d, gc, x+width, y+gap, height*2, height*2, 270*64, 180*64);
+}
+
+void aduko_main_item_highlight_right(Display *display, Drawable d, GC gc, int x, int y,
+		unsigned int width, unsigned int height, unsigned int gap, unsigned long fg,
+		unsigned long bg) {
+
+	XSetForeground(display, gc, bg);
+	XFillRectangle(display, d, gc, x, y, width+(height*2), (gap*2)+1+(height*2));
+	XSetForeground(display, gc, fg);
+	XFillRectangle(display, d, gc, x+(height*2), y+gap, width, (height*2)+1);
+	XFillRectangle(display, d, gc, x+height, y+gap, height-gap, (height*2)+1);
+	XFillArc(display, d, gc, x, y+gap, height*2, height*2, 90*64, 180*64);
+}
+
+unsigned int aduko_item2y(unsigned int item, unsigned int height, unsigned int gap) {
+	unsigned int y = height*3;
+	if(item > 0) y += item*(height*2+1+gap);
+	return y;
+}

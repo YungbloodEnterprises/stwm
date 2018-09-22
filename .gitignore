@@ -1,3 +1,4 @@
 Makefile
 stwm
 src/*.o
+/stwm.exe

@@ -436,14 +436,12 @@ void infobar_refresh(struct infobar *i) {
 	barwin_refresh(i->bar);
 
 	XSetForeground(W->dpy, W->gc, strtol("0x0000ff", 0, 16));
-	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width, 325);
-	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, 600, height);
-	XFillRectangle(W->dpy, W->root, W->gc, i->screen->ugeo.w - width, 0, width, 325);
-	XFillRectangle(W->dpy, W->root, W->gc, i->screen->ugeo.w-600, 300, 600, height);
+	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width, i->screen->ugeo.h);
+	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, i->screen->ugeo.w, height);
 
 	aduko_main_tl(W->dpy, W->root, W->gc, 0, 0, width, height, strtol("0x0000ff", 0, 16), 0);
-	aduko_main_br(W->dpy, W->root, W->gc, i->screen->ugeo.w - (width * 1.35), 300 - height, width, height, strtol("0x0000ff", 0, 16), 0);
-	aduko_main_top(W->dpy, W->root, W->gc, i->screen->ugeo.w - width, 0, width, height, strtol("0x0000ff", 0, 16), 0);
+	aduko_main_bottom(W->dpy, W->root, W->gc, 0, i->screen->ugeo.h, width, height, strtol("0x0000ff", 0, 16), 0);
+	aduko_main_right(W->dpy, W->root, W->gc, i->screen->ugeo.w-(height/2), 0, width, height, strtol("0x0000ff", 0, 16), 0);
 
 	XSetForeground(W->dpy, W->gc, strtol("0x000000", 0, 16));
 	XFillRectangle(W->dpy, W->root, W->gc, 0, height * 3 - 5, i->screen->ugeo.w, 5);

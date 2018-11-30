@@ -443,7 +443,7 @@ void infobar_refresh(struct infobar *i) {
 	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, width, i->screen->ugeo.h);
 	XFillRectangle(W->dpy, W->root, W->gc, 0, 0, i->screen->ugeo.w, height);
 
-	aduko_main_tl(W->dpy, W->root, W->gc, 0, 0, width, height, fg, gb);
+	aduko_main_tl(W->dpy, W->root, W->gc, 0, 0, width, height, fg, bg);
 	aduko_main_bottom(W->dpy, W->root, W->gc, 0, i->screen->ugeo.h, width, height, fg, bg);
 	aduko_main_right(W->dpy, W->root, W->gc, i->screen->ugeo.w-(height/2), 0, width, height, fg, bg);
 
